@@ -1,4 +1,4 @@
-package com.example.webfunds
+package com.sccpscar.webfunds
 
 import io.flutter.embedding.android.FlutterActivity
 
