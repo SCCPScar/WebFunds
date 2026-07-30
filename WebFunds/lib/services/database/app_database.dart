@@ -21,6 +21,10 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   @override
   Future<void> initialize() async {}
 
+  // `driftDatabase` opens a plain, unencrypted SQLite file — `drift_flutter`
+  // has no cipher/password option. At-rest protection for this database
+  // relies entirely on the OS's own disk/keystore encryption, not on
+  // anything this app does.
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'webfunds');
   }

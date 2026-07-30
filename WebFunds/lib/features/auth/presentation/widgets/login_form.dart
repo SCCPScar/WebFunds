@@ -60,6 +60,7 @@ class _LoginFormState extends State<LoginForm> {
             autofillHints: const [AutofillHints.password],
             suffixIcon: IconButton(
               icon: Icon(_obscurePassword ? AppIcons.eyeHidden : AppIcons.eyeVisible),
+              tooltip: _obscurePassword ? 'Mostrar palavra-passe' : 'Ocultar palavra-passe',
               onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
             ),
           ),
