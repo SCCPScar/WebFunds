@@ -7,8 +7,8 @@ final class NoParams {
 
 /// Base contract for every one-shot (Future-based) Use Case in the
 /// Application layer. Callable via `call()`.
-abstract class UseCase<Type, Params> {
+abstract class UseCase<T, Params> {
   const UseCase();
 
-  Future<Result<Type>> call(Params params);
+  Future<Result<T>> call(Params params);
 }

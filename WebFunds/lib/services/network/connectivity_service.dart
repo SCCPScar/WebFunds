@@ -21,7 +21,7 @@ class ConnectivityService {
 }
 
 final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
-  return const ConnectivityService(Connectivity());
+  return ConnectivityService(Connectivity());
 });
 
 /// Application-state connectivity stream.

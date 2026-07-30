@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/animation/page_transitions.dart';
-import '../features/auth/domain/entities/auth_user.dart';
 import '../features/auth/presentation/controllers/auth_gate_controller.dart';
 import '../features/auth/presentation/pages/face_id_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -73,10 +72,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.faceId,
         name: AppRoutes.faceIdName,
-        pageBuilder: (context, state) => PageTransitions.fade(
-          key: state.pageKey,
-          child: FaceIdPage(user: state.extra! as AuthUser),
-        ),
+        pageBuilder: (context, state) =>
+            PageTransitions.fade(key: state.pageKey, child: const FaceIdPage()),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -88,35 +85,35 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               name: AppRoutes.centralName,
               builder: (context, state) => const CentralPage(),
             ),
-          ]),
+          ],),
           StatefulShellBranch(routes: [
             GoRoute(
               path: AppRoutes.finances,
               name: AppRoutes.financesName,
               builder: (context, state) => const FinancesPage(),
             ),
-          ]),
+          ],),
           StatefulShellBranch(routes: [
             GoRoute(
               path: AppRoutes.vault,
               name: AppRoutes.vaultName,
               builder: (context, state) => const VaultPage(),
             ),
-          ]),
+          ],),
           StatefulShellBranch(routes: [
             GoRoute(
               path: AppRoutes.mysteries,
               name: AppRoutes.mysteriesName,
               builder: (context, state) => const MysteriesPage(),
             ),
-          ]),
+          ],),
           StatefulShellBranch(routes: [
             GoRoute(
               path: AppRoutes.weaver,
               name: AppRoutes.weaverName,
               builder: (context, state) => const WeaverPage(),
             ),
-          ]),
+          ],),
         ],
       ),
     ],

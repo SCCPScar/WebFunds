@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/usecase/use_case.dart';
 import '../../../../startup/startup_provider.dart';
 import '../../../../startup/startup_result.dart';
 import '../../domain/entities/auth_user.dart';

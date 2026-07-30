@@ -10,29 +10,29 @@ void main() {
   const user = AuthUser(id: '1', email: 'scarllett@example.com');
 
   test('unknown state sends to Splash', () {
-    final context = const AppNavigationContext(authGateState: AuthGateUnknown());
+    const context = AppNavigationContext(authGateState: AuthGateUnknown());
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.splash);
     expect(resolver.resolve(context, AppRoutes.splash), isNull);
   });
 
   test('unauthenticated sends to Login', () {
-    final context = const AppNavigationContext(authGateState: AuthGateUnauthenticated());
+    const context = AppNavigationContext(authGateState: AuthGateUnauthenticated());
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.login);
   });
 
   test('awaiting biometric sends to Face ID', () {
-    final context = const AppNavigationContext(authGateState: AuthGateAwaitingBiometric(user));
+    const context = AppNavigationContext(authGateState: AuthGateAwaitingBiometric(user));
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.faceId);
   });
 
   test('authenticated on a public-only route redirects to Central', () {
-    final context = const AppNavigationContext(authGateState: AuthGateAuthenticated(user));
+    const context = AppNavigationContext(authGateState: AuthGateAuthenticated(user));
     expect(resolver.resolve(context, AppRoutes.login), AppRoutes.central);
     expect(resolver.resolve(context, AppRoutes.splash), AppRoutes.central);
   });
 
   test('authenticated elsewhere does not force a redirect', () {
-    final context = const AppNavigationContext(authGateState: AuthGateAuthenticated(user));
+    const context = AppNavigationContext(authGateState: AuthGateAuthenticated(user));
     expect(resolver.resolve(context, AppRoutes.central), isNull);
     expect(resolver.resolve(context, AppRoutes.finances), isNull);
   });

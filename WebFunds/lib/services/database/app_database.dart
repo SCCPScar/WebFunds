@@ -21,9 +21,6 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   @override
   Future<void> initialize() async {}
 
-  @override
-  Future<void> close() => super.close();
-
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'webfunds');
   }

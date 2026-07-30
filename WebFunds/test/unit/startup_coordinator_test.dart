@@ -37,7 +37,7 @@ void main() {
   test('runs every task and assembles a single StartupResult', () async {
     final coordinator = StartupCoordinator([
       _FakeTask('A', (b) => b.sessionUser = null),
-    ], _FakeSilentLogger());
+    ], _FakeSilentLogger(),);
 
     final result = await coordinator.run();
 
@@ -49,7 +49,7 @@ void main() {
     final coordinator = StartupCoordinator([
       const _FailingTask(),
       _FakeTask('B', (b) => otherTaskRan = true),
-    ], _FakeSilentLogger());
+    ], _FakeSilentLogger(),);
 
     final result = await coordinator.run();
 

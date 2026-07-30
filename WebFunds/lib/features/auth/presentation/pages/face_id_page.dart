@@ -13,12 +13,14 @@ import '../controllers/auth_gate_controller.dart';
 /// Shown when `AuthGateController` finds an existing session with Face ID
 /// enabled. Success/fallback report to `AuthGateController` — no direct
 /// navigation happens here, the Route Guard reacts to the state change.
+///
+/// Reads the pending [AuthUser] from `authGateControllerProvider` rather
+/// than `GoRouterState.extra`: this route is only ever reached through the
+/// router's string-returning `redirect`, which never carries `extra`.
 class FaceIdPage extends ConsumerWidget {
-  const FaceIdPage({super.key, required this.user});
+  const FaceIdPage({super.key});
 
-  final AuthUser user;
-
-  Future<void> _authenticate(BuildContext context, WidgetRef ref) async {
+  Future<void> _authenticate(BuildContext context, WidgetRef ref, AuthUser user) async {
     final logger = ref.read(appLoggerProvider);
     try {
       final authenticated = await ref
@@ -44,6 +46,8 @@ class FaceIdPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final authGateState = ref.watch(authGateControllerProvider);
+    final user = (authGateState as AuthGateAwaitingBiometric).user;
 
     return Scaffold(
       body: SafeArea(
@@ -67,7 +71,7 @@ class FaceIdPage extends ConsumerWidget {
               Text(user.email, style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.xxxl),
               ElevatedButton.icon(
-                onPressed: () => _authenticate(context, ref),
+                onPressed: () => _authenticate(context, ref, user),
                 icon: const Icon(AppIcons.biometric),
                 label: const Text('Usar Face ID'),
               ),

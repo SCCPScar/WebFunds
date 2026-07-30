@@ -33,7 +33,6 @@ class BiometricService {
       return await _localAuth.authenticate(
         localizedReason: reason,
         options: const AuthenticationOptions(
-          biometricOnly: false,
           stickyAuth: true,
         ),
       );

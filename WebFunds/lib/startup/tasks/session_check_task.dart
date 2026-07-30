@@ -1,3 +1,4 @@
+import '../../core/usecase/use_case.dart';
 import '../../features/auth/application/usecases/check_session_usecase.dart';
 import '../../services/logging/app_logger.dart';
 import '../startup_result.dart';

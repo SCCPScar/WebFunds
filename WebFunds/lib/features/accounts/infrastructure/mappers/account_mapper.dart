@@ -1,4 +1,4 @@
-import '../../../../services/database/tables/accounts_table.dart';
+import '../../../../services/database/app_database.dart';
 import '../../../../shared/models/money.dart';
 import '../../domain/entities/account.dart';
 import '../../domain/entities/account_type.dart';

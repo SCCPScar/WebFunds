@@ -9,7 +9,7 @@ import '../logging/app_logger.dart';
 /// retrying through a brand-new `Dio()` would silently drop every other
 /// interceptor configured on the real client.
 class _RetryInterceptor extends Interceptor {
-  _RetryInterceptor(this._dio, this._logger, {this.maxRetries = 2});
+  _RetryInterceptor(this._dio, this._logger) : maxRetries = 2;
 
   final Dio _dio;
   final AppLogger _logger;
