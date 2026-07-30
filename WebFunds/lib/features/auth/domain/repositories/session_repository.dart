@@ -10,4 +10,10 @@ abstract class SessionRepository {
   /// means the check itself failed — the caller should treat that the
   /// same as "no session" and fail safe to Login.
   Future<Result<AuthUser?>> getCurrentSession();
+
+  /// Ends the active session remotely. Must be called, and awaited,
+  /// before any local "signed out" state is applied — otherwise the
+  /// session persists server-side and `getCurrentSession()` resurrects it
+  /// on the next app launch.
+  Future<Result<void>> signOut();
 }

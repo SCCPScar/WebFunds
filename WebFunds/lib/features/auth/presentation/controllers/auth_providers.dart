@@ -6,6 +6,7 @@ import '../../application/usecases/check_session_usecase.dart';
 import '../../application/usecases/get_biometric_preference_usecase.dart';
 import '../../application/usecases/set_biometric_preference_usecase.dart';
 import '../../application/usecases/sign_in_with_email_usecase.dart';
+import '../../application/usecases/sign_out_usecase.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/repositories/biometric_preference_repository.dart';
 import '../../domain/repositories/session_repository.dart';
@@ -30,6 +31,10 @@ final sessionRepositoryProvider = Provider<SessionRepository>((ref) {
 
 final checkSessionUseCaseProvider = Provider<CheckSessionUseCase>((ref) {
   return CheckSessionUseCase(ref.watch(sessionRepositoryProvider));
+});
+
+final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
+  return SignOutUseCase(ref.watch(sessionRepositoryProvider));
 });
 
 final biometricPreferenceRepositoryProvider = Provider<BiometricPreferenceRepository>((ref) {

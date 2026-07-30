@@ -42,6 +42,20 @@ class _RetryInterceptor extends Interceptor {
       } on DioException catch (retryError) {
         handler.next(retryError);
         return;
+      } catch (retryError, stackTrace) {
+        // _dio.fetch() is expected to only throw DioException, but if
+        // something else escapes, the original request's Future must
+        // still complete — an uncaught error here would leave it pending
+        // forever, since neither resolve(), next(), nor reject() would
+        // ever be called.
+        _logger.error(
+          'Unexpected error retrying request: ${err.requestOptions.path}',
+          tag: 'Dio',
+          error: retryError,
+          stackTrace: stackTrace,
+        );
+        handler.next(err);
+        return;
       }
     }
 

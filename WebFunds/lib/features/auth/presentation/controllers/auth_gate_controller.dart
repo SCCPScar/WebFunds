@@ -55,7 +55,12 @@ class AuthGateController extends Notifier<AuthGateState> {
 
     final getBiometricPreference = ref.read(getBiometricPreferenceUseCaseProvider);
     final preferenceResult = await getBiometricPreference(const NoParams());
-    final biometricEnabled = preferenceResult.dataOrNull ?? false;
+    // Fail-safe: if the preference can't be read, never assume biometric
+    // lock is off. Only an explicit `false` skips the Face ID gate.
+    final biometricEnabled = preferenceResult.fold(
+      onSuccess: (enabled) => enabled,
+      onError: (_) => true,
+    );
 
     state = biometricEnabled ? AuthGateAwaitingBiometric(user) : AuthGateAuthenticated(user);
   }
@@ -74,7 +79,11 @@ class AuthGateController extends Notifier<AuthGateState> {
   /// Called by `FaceIdPage`'s "Entrar com palavra-passe" fallback.
   void requestPasswordFallback() => state = const AuthGateUnauthenticated();
 
-  /// Placeholder sign-out. Does not yet call a real Supabase sign-out —
-  /// belongs to a future Profile/Settings feature.
-  void signOut() => state = const AuthGateUnauthenticated();
+  /// Ends the remote Supabase session before applying the local
+  /// "signed out" state — otherwise the session would persist server-side
+  /// and be silently resumed on the next app launch.
+  Future<void> signOut() async {
+    await ref.read(signOutUseCaseProvider).call(const NoParams());
+    state = const AuthGateUnauthenticated();
+  }
 }

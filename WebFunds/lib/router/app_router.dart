@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config/env_config.dart';
 import '../core/animation/page_transitions.dart';
+import '../core/errors/failure.dart';
 import '../features/auth/presentation/controllers/auth_gate_controller.dart';
 import '../features/auth/presentation/pages/face_id_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -14,6 +16,7 @@ import '../features/vault/presentation/pages/vault_page.dart';
 import '../features/weaver/presentation/pages/weaver_page.dart';
 import '../navigation/app_navigation_context.dart';
 import '../navigation/app_navigation_resolver_provider.dart';
+import '../shared/widgets/app_error_view.dart';
 import '../shell/app_shell.dart';
 import 'app_routes.dart';
 
@@ -46,7 +49,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: AppRoutes.splash,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: EnvConfig.environment.isDebuggable,
     refreshListenable: refreshNotifier,
     redirect: (context, state) {
       final navigationContext = AppNavigationContext(
@@ -56,6 +59,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           .read(appNavigationResolverProvider)
           .resolve(navigationContext, state.matchedLocation);
     },
+    errorBuilder: (context, state) => AppErrorView(
+      failure: UnknownFailure(message: 'Página não encontrada: ${state.uri}'),
+    ),
     routes: [
       GoRoute(
         path: AppRoutes.splash,

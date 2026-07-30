@@ -32,4 +32,22 @@ class SupabaseSessionRepository implements SessionRepository {
       );
     }
   }
+
+  @override
+  Future<Result<void>> signOut() async {
+    if (!_supabaseService.isInitialized) {
+      return const Success(null);
+    }
+
+    try {
+      await _supabaseService.client.auth.signOut();
+      return const Success(null);
+    } on Exception catch (e) {
+      return ResultError(
+        mapExceptionToFailure(
+          UnknownException('Não foi possível terminar a sessão.', cause: e),
+        ),
+      );
+    }
+  }
 }

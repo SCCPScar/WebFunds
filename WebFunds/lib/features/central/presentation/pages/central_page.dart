@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../../../design_system/spacing/app_spacing.dart';
+import '../../../../services/logging/app_logger.dart';
 import '../../../../shared/widgets/app_error_view.dart';
 import '../../../../shared/widgets/app_loading_indicator.dart';
 import '../../domain/entities/dashboard_summary.dart';
@@ -25,10 +26,18 @@ class CentralPage extends ConsumerWidget {
 
     return summaryAsync.when(
       loading: () => const AppLoadingIndicator(message: 'A carregar o teu resumo...'),
-      error: (error, stackTrace) => AppErrorView(
-        failure: const UnknownFailure(),
-        onRetry: () => ref.invalidate(dashboardSummaryProvider),
-      ),
+      error: (error, stackTrace) {
+        ref.read(appLoggerProvider).error(
+          'Falha inesperada ao carregar o resumo do dashboard.',
+          tag: 'CentralPage',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        return AppErrorView(
+          failure: const UnknownFailure(),
+          onRetry: () => ref.invalidate(dashboardSummaryProvider),
+        );
+      },
       data: (result) => result.fold(
         onSuccess: (summary) => _CentralSections(summary: summary),
         onError: (failure) => AppErrorView(
