@@ -1,0 +1,70 @@
+name: webfunds
+description: "WebFunds — personal financial operating system."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- State Management ---
+  flutter_riverpod: ^3.3.2
+
+  # --- Routing ---
+  go_router: ^16.0.0
+
+  # --- Design System / Typography ---
+  google_fonts: ^6.2.1
+
+  # --- Icons (ADR 001 — Bootstrap Icons is the single icon library) ---
+  bootstrap_icons: ^1.11.3
+
+  # --- Motion (ADR 002 — Native Flutter Motion System) ---
+  flutter_animate: ^4.5.0
+  lottie: ^3.1.0
+
+  # --- Utilities ---
+  intl: ^0.19.0
+  cupertino_icons: ^1.0.8
+  uuid: ^4.5.0
+
+  # --- Networking ---
+  dio: ^5.7.0
+  connectivity_plus: ^6.1.0
+
+  # --- Backend (Supabase) ---
+  supabase_flutter: ^2.8.0
+
+  # --- Local Database (Drift) ---
+  drift: ^2.20.0
+  drift_flutter: ^0.2.0
+  sqlite3_flutter_libs: ^0.5.24
+  path_provider: ^2.1.4
+
+  # --- Security ---
+  local_auth: ^2.3.0
+  flutter_secure_storage: ^9.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+  # --- Code generation for Drift ---
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  #   - assets/lottie/
