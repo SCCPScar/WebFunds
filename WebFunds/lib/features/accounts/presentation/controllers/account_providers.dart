@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/providers/shared_providers.dart';
+import '../../../../core/result/result.dart';
 import '../../../../services/database/daos/account_dao.dart';
+import '../../../../shared/models/money.dart';
+import '../../../transactions/presentation/controllers/transaction_providers.dart';
 import '../../application/usecases/archive_account_usecase.dart';
 import '../../application/usecases/create_account_usecase.dart';
+import '../../application/usecases/get_account_balances_usecase.dart';
 import '../../application/usecases/watch_accounts_usecase.dart';
+import '../../domain/entities/account.dart';
 import '../../domain/repositories/account_repository.dart';
 import '../../infrastructure/repositories/drift_account_repository.dart';
 
@@ -38,4 +43,19 @@ final archiveAccountUseCaseProvider = Provider<ArchiveAccountUseCase>((ref) {
 /// watch directly.
 final accountsStreamProvider = StreamProvider.autoDispose((ref) {
   return ref.watch(watchAccountsUseCaseProvider).call();
+});
+
+final getAccountBalancesUseCaseProvider = Provider<GetAccountBalancesUseCase>((ref) {
+  return GetAccountBalancesUseCase(ref.watch(transactionRepositoryProvider));
+});
+
+/// Current balance per Account, keyed by id — recomputed each time this
+/// is (re)watched, same one-shot-on-mount shape as `dashboardSummaryProvider`.
+final accountBalancesProvider = FutureProvider.autoDispose<Result<Map<String, Money>>>((ref) async {
+  final accountsResult = await ref.watch(accountRepositoryProvider).watchAll().first;
+  if (accountsResult case ResultError(:final failure)) {
+    return ResultError(failure);
+  }
+  final accounts = accountsResult.dataOrNull ?? const <Account>[];
+  return ref.watch(getAccountBalancesUseCaseProvider).call(accounts);
 });

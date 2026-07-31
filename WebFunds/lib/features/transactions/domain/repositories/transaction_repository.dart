@@ -11,6 +11,12 @@ abstract class TransactionRepository {
   /// are grouped by the active Financial Cycle by default."
   Stream<Result<List<Transaction>>> watchByCycle(String financialCycleId);
 
+  /// Every Transaction ever recorded, across every Financial Cycle — the
+  /// only view of a Transaction that isn't scoped to one Cycle. Powers
+  /// derived, always-current Account balances (Central's Dashboard),
+  /// which must reflect Cycles that have since closed.
+  Future<Result<List<Transaction>>> getAll();
+
   /// `id`, `createdAt` and `updatedAt` are not parameters — assigning
   /// them is this layer's responsibility, never the caller's.
   Future<Result<Transaction>> create({

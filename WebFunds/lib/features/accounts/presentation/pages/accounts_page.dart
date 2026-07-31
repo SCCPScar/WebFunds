@@ -8,6 +8,7 @@ import '../../../../services/logging/app_logger.dart';
 import '../../../../shared/widgets/app_empty_state.dart';
 import '../../../../shared/widgets/app_error_view.dart';
 import '../../../../shared/widgets/app_loading_indicator.dart';
+import '../../../../shared/models/money.dart';
 import '../../domain/entities/account.dart';
 import '../controllers/account_providers.dart';
 import '../controllers/create_account_controller.dart';
@@ -76,6 +77,8 @@ class AccountsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accountsAsync = ref.watch(accountsStreamProvider);
+    final balancesAsync = ref.watch(accountBalancesProvider);
+    final balances = balancesAsync.value?.dataOrNull ?? const <String, Money>{};
 
     return Scaffold(
       appBar: AppBar(title: const Text('Contas')),
@@ -101,6 +104,7 @@ class AccountsPage extends ConsumerWidget {
         data: (result) => result.fold(
           onSuccess: (accounts) => _AccountsList(
             accounts: accounts,
+            balances: balances,
             onArchive: (id) => _archive(context, ref, id),
           ),
           onError: (failure) => AppErrorView(
@@ -114,9 +118,10 @@ class AccountsPage extends ConsumerWidget {
 }
 
 class _AccountsList extends StatelessWidget {
-  const _AccountsList({required this.accounts, required this.onArchive});
+  const _AccountsList({required this.accounts, required this.balances, required this.onArchive});
 
   final List<Account> accounts;
+  final Map<String, Money> balances;
   final void Function(String accountId) onArchive;
 
   @override
@@ -136,6 +141,7 @@ class _AccountsList extends StatelessWidget {
         final account = accounts[index];
         return AccountListTile(
           account: account,
+          balance: balances[account.id] ?? account.openingBalance,
           onArchive: () => onArchive(account.id),
         );
       },

@@ -16,6 +16,11 @@ class _StubTransactionRepository implements TransactionRepository {
   }
 
   @override
+  Future<Result<List<Transaction>>> getAll() {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<Result<Transaction>> create({
     required String financialCycleId,
     required String accountId,

@@ -44,6 +44,18 @@ class DriftTransactionRepository implements TransactionRepository {
   }
 
   @override
+  Future<Result<List<Transaction>>> getAll() async {
+    try {
+      final rows = await _dao.getAll();
+      return Success(rows.map(TransactionMapper.toDomain).toList());
+    } on Exception catch (e) {
+      return ResultError(
+        mapExceptionToFailure(CacheException('Não foi possível carregar as transações.', cause: e)),
+      );
+    }
+  }
+
+  @override
   Future<Result<Transaction>> create({
     required String financialCycleId,
     required String accountId,

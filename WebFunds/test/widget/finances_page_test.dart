@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:webfunds/core/providers/shared_providers.dart';
 import 'package:webfunds/features/finances/presentation/pages/finances_page.dart';
 import 'package:webfunds/services/database/app_database.dart';
-import 'package:webfunds/services/database/tables/accounts_table.dart';
 
 void main() {
   late AppDatabase database;

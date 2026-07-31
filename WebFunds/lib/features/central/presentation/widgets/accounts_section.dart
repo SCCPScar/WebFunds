@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../design_system/icons/app_icons.dart';
 import '../../../../design_system/spacing/app_spacing.dart';
 import '../../../../router/app_routes.dart';
+import '../../../../shared/models/money.dart';
 import '../../../../shared/widgets/app_loading_indicator.dart';
 import '../../../accounts/domain/entities/account.dart';
 import '../../../accounts/presentation/controllers/account_providers.dart';
@@ -20,6 +21,8 @@ class AccountsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final accountsAsync = ref.watch(accountsStreamProvider);
+    final balancesAsync = ref.watch(accountBalancesProvider);
+    final balances = balancesAsync.value?.dataOrNull ?? const <String, Money>{};
 
     return Card(
       child: InkWell(
@@ -39,7 +42,7 @@ class AccountsSection extends ConsumerWidget {
               ],
             ),
             data: (result) => result.fold(
-              onSuccess: (accounts) => _Content(accounts: accounts),
+              onSuccess: (accounts) => _Content(accounts: accounts, balances: balances),
               onError: (failure) => Row(
                 children: [
                   Icon(AppIcons.error, color: theme.colorScheme.error),
@@ -56,9 +59,10 @@ class AccountsSection extends ConsumerWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({required this.accounts});
+  const _Content({required this.accounts, required this.balances});
 
   final List<Account> accounts;
+  final Map<String, Money> balances;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,10 @@ class _Content extends StatelessWidget {
                 Icon(account.type.icon, size: 20, color: theme.colorScheme.onSurface.withValues(alpha: 0.7)),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(child: Text(account.name, style: theme.textTheme.bodyMedium)),
-                Text(account.openingBalance.format(), style: theme.textTheme.bodyMedium),
+                Text(
+                  (balances[account.id] ?? account.openingBalance).format(),
+                  style: theme.textTheme.bodyMedium,
+                ),
               ],
             ),
           ),

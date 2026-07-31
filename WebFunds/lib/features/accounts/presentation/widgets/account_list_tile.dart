@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../design_system/icons/app_icons.dart';
+import '../../../../shared/models/money.dart';
 import '../../domain/entities/account.dart';
 import '../utils/account_type_presentation.dart';
 
@@ -8,10 +9,16 @@ class AccountListTile extends StatelessWidget {
   const AccountListTile({
     super.key,
     required this.account,
+    required this.balance,
     required this.onArchive,
   });
 
   final Account account;
+
+  /// The Account's *current* balance (opening balance + its
+  /// Transactions) — never `account.openingBalance` directly, which only
+  /// reflects what the Account started with.
+  final Money balance;
   final VoidCallback onArchive;
 
   @override
@@ -26,7 +33,7 @@ class AccountListTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(account.openingBalance.format(), style: theme.textTheme.titleLarge),
+            Text(balance.format(), style: theme.textTheme.titleLarge),
             IconButton(
               icon: const Icon(AppIcons.archive),
               tooltip: 'Arquivar conta',

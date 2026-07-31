@@ -1,9 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:webfunds/core/result/result.dart';
 import 'package:webfunds/core/utils/clock.dart';
 import 'package:webfunds/core/utils/id_generator.dart';
-import 'package:webfunds/features/transactions/domain/entities/transaction.dart';
 import 'package:webfunds/features/transactions/domain/entities/transaction_type.dart';
 import 'package:webfunds/features/transactions/infrastructure/repositories/drift_transaction_repository.dart';
 import 'package:webfunds/services/database/app_database.dart';
@@ -124,5 +122,26 @@ void main() {
     final result =
         await repository.updateMerchantAndCategory('does-not-exist', merchant: 'X');
     expect(result.isError, isTrue);
+  });
+
+  test('getAll returns every transaction, regardless of cycle', () async {
+    await repository.create(
+      financialCycleId: 'cycle-1',
+      accountId: 'account-1',
+      type: TransactionType.expense,
+      amount: Money.fromMajorUnits(10),
+      transactionDate: DateTime(2026, 1, 1),
+    );
+    await repository.create(
+      financialCycleId: 'cycle-2',
+      accountId: 'account-1',
+      type: TransactionType.income,
+      amount: Money.fromMajorUnits(20),
+      transactionDate: DateTime(2026, 1, 15),
+    );
+
+    final result = await repository.getAll();
+    expect(result.isSuccess, isTrue);
+    expect(result.dataOrNull!.length, 2);
   });
 }

@@ -22,6 +22,10 @@ class TransactionDao extends DatabaseAccessor<AppDatabase> with _$TransactionDao
     return (select(transactions)..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
+  /// Every Transaction ever recorded, across every Financial Cycle —
+  /// powers derived, always-current Account balances (Dashboard).
+  Future<List<TransactionRow>> getAll() => select(transactions).get();
+
   Future<void> insertRow(TransactionRow row) => into(transactions).insert(row);
 
   Future<void> updateRow(TransactionRow row) => update(transactions).replace(row);
