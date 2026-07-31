@@ -3,16 +3,18 @@ import 'package:drift_flutter/drift_flutter.dart';
 
 import 'daos/account_dao.dart';
 import 'daos/financial_cycle_dao.dart';
+import 'daos/transaction_dao.dart';
 import 'local_database_service.dart';
 import 'tables/accounts_table.dart';
 import 'tables/financial_cycles_table.dart';
+import 'tables/transactions_table.dart';
 
 part 'app_database.g.dart';
 
 /// WebFunds' local database. Implements `LocalDatabaseService`.
 @DriftDatabase(
-  tables: [Accounts, FinancialCycles],
-  daos: [AccountDao, FinancialCycleDao],
+  tables: [Accounts, FinancialCycles, Transactions],
+  daos: [AccountDao, FinancialCycleDao, TransactionDao],
 )
 class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase() : super(_openConnection());
@@ -21,7 +23,7 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -29,6 +31,9 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
     onUpgrade: (Migrator m, int from, int to) async {
       if (from < 2) {
         await m.createTable(financialCycles);
+      }
+      if (from < 3) {
+        await m.createTable(transactions);
       }
     },
   );
