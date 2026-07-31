@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../app.dart';
 import '../services/logging/app_logger.dart';
@@ -23,6 +24,12 @@ Future<void> bootstrapApp(AppEnvironment environment) async {
   await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // Networks that can't reach fonts.gstatic.com (corporate firewalls,
+      // some regions, blockers) left every piece of app text invisible —
+      // google_fonts silently drops glyphs it can't fetch instead of
+      // falling back. This makes it use the bundled/system font instead.
+      GoogleFonts.config.allowRuntimeFetching = false;
 
       EnvConfig.setEnvironment(environment);
 

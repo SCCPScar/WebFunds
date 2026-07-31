@@ -67,6 +67,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  # Bundled locally so google_fonts (see lib/config/bootstrap.dart,
+  # allowRuntimeFetching = false) can find Inter without a network fetch —
+  # filenames must match GoogleFonts' own naming convention exactly.
+  assets:
+    - assets/fonts/
+
   # assets:
   #   - assets/images/
   #   - assets/icons/
