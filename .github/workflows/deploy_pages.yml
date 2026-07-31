@@ -36,7 +36,13 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build web --release --base-href /WebFunds/ --no-web-resources-cdn
+      - run: >
+          flutter build web --release --base-href /WebFunds/ --no-web-resources-cdn
+          --dart-define=SUPABASE_URL="$SUPABASE_URL"
+          --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - uses: actions/configure-pages@v5
 
