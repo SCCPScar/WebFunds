@@ -9,14 +9,15 @@ import '../../../../shared/widgets/app_loading_indicator.dart';
 import '../../domain/entities/dashboard_summary.dart';
 import '../controllers/dashboard_providers.dart';
 import '../widgets/accounts_section.dart';
+import '../widgets/current_cycle_section.dart';
 import '../widgets/goals_section.dart';
 import '../widgets/recent_activity_section.dart';
 import '../widgets/summary_section.dart';
 
-/// Composed entirely of independent sections. Only `SummarySection` and
-/// `RecentActivitySection` have real content today — `AccountsSection`
-/// and `GoalsSection` are placeholders future milestones fill in without
-/// changing this structure at all.
+/// Composed entirely of independent sections. `SummarySection`,
+/// `CurrentCycleSection`, `AccountsSection` and `RecentActivitySection`
+/// have real content — `GoalsSection` is still a placeholder a future
+/// milestone fills in without changing this structure at all.
 class CentralPage extends ConsumerWidget {
   const CentralPage({super.key});
 
@@ -60,6 +61,8 @@ class _CentralSections extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.xl),
       children: [
         SummarySection(totalBalance: summary.totalBalance),
+        const SizedBox(height: AppSpacing.lg),
+        const CurrentCycleSection(),
         const SizedBox(height: AppSpacing.lg),
         const AccountsSection(),
         const SizedBox(height: AppSpacing.lg),

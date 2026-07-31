@@ -2,7 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:webfunds/features/accounts/presentation/controllers/account_providers.dart';
+import 'package:webfunds/core/providers/shared_providers.dart';
 import 'package:webfunds/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:webfunds/services/database/app_database.dart';
 

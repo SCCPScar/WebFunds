@@ -425,16 +425,630 @@ class AccountsCompanion extends UpdateCompanion<AccountRow> {
   }
 }
 
+class $FinancialCyclesTable extends FinancialCycles
+    with TableInfo<$FinancialCyclesTable, FinancialCycleRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FinancialCyclesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _startDateMeta =
+      const VerificationMeta('startDate');
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+      'start_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _endDateMeta =
+      const VerificationMeta('endDate');
+  @override
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
+      'end_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _openingBalanceMinorUnitsMeta =
+      const VerificationMeta('openingBalanceMinorUnits');
+  @override
+  late final GeneratedColumn<int> openingBalanceMinorUnits =
+      GeneratedColumn<int>('opening_balance_minor_units', aliasedName, false,
+          type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _openingBalanceCurrencyMeta =
+      const VerificationMeta('openingBalanceCurrency');
+  @override
+  late final GeneratedColumn<String> openingBalanceCurrency =
+      GeneratedColumn<String>('opening_balance_currency', aliasedName, false,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          defaultValue: const Constant('€'));
+  static const VerificationMeta _closingBalanceMinorUnitsMeta =
+      const VerificationMeta('closingBalanceMinorUnits');
+  @override
+  late final GeneratedColumn<int> closingBalanceMinorUnits =
+      GeneratedColumn<int>('closing_balance_minor_units', aliasedName, true,
+          type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _closingBalanceCurrencyMeta =
+      const VerificationMeta('closingBalanceCurrency');
+  @override
+  late final GeneratedColumn<String> closingBalanceCurrency =
+      GeneratedColumn<String>('closing_balance_currency', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        startDate,
+        endDate,
+        status,
+        openingBalanceMinorUnits,
+        openingBalanceCurrency,
+        closingBalanceMinorUnits,
+        closingBalanceCurrency,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'financial_cycles';
+  @override
+  VerificationContext validateIntegrity(Insertable<FinancialCycleRow> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(_startDateMeta,
+          startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta));
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(_endDateMeta,
+          endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta));
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('opening_balance_minor_units')) {
+      context.handle(
+          _openingBalanceMinorUnitsMeta,
+          openingBalanceMinorUnits.isAcceptableOrUnknown(
+              data['opening_balance_minor_units']!,
+              _openingBalanceMinorUnitsMeta));
+    } else if (isInserting) {
+      context.missing(_openingBalanceMinorUnitsMeta);
+    }
+    if (data.containsKey('opening_balance_currency')) {
+      context.handle(
+          _openingBalanceCurrencyMeta,
+          openingBalanceCurrency.isAcceptableOrUnknown(
+              data['opening_balance_currency']!, _openingBalanceCurrencyMeta));
+    }
+    if (data.containsKey('closing_balance_minor_units')) {
+      context.handle(
+          _closingBalanceMinorUnitsMeta,
+          closingBalanceMinorUnits.isAcceptableOrUnknown(
+              data['closing_balance_minor_units']!,
+              _closingBalanceMinorUnitsMeta));
+    }
+    if (data.containsKey('closing_balance_currency')) {
+      context.handle(
+          _closingBalanceCurrencyMeta,
+          closingBalanceCurrency.isAcceptableOrUnknown(
+              data['closing_balance_currency']!, _closingBalanceCurrencyMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FinancialCycleRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FinancialCycleRow(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      startDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_date'])!,
+      endDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}end_date']),
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
+      openingBalanceMinorUnits: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}opening_balance_minor_units'])!,
+      openingBalanceCurrency: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}opening_balance_currency'])!,
+      closingBalanceMinorUnits: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}closing_balance_minor_units']),
+      closingBalanceCurrency: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}closing_balance_currency']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  $FinancialCyclesTable createAlias(String alias) {
+    return $FinancialCyclesTable(attachedDatabase, alias);
+  }
+}
+
+class FinancialCycleRow extends DataClass
+    implements Insertable<FinancialCycleRow> {
+  final String id;
+  final String? name;
+  final DateTime startDate;
+  final DateTime? endDate;
+
+  /// Stores `FinancialCycleStatus.name` as plain text (e.g. "active").
+  /// No Drift-only enum column — that would duplicate the Domain enum.
+  final String status;
+
+  /// Money, always as minor units — never REAL/double.
+  final int openingBalanceMinorUnits;
+  final String openingBalanceCurrency;
+  final int? closingBalanceMinorUnits;
+  final String? closingBalanceCurrency;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const FinancialCycleRow(
+      {required this.id,
+      this.name,
+      required this.startDate,
+      this.endDate,
+      required this.status,
+      required this.openingBalanceMinorUnits,
+      required this.openingBalanceCurrency,
+      this.closingBalanceMinorUnits,
+      this.closingBalanceCurrency,
+      required this.createdAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    map['start_date'] = Variable<DateTime>(startDate);
+    if (!nullToAbsent || endDate != null) {
+      map['end_date'] = Variable<DateTime>(endDate);
+    }
+    map['status'] = Variable<String>(status);
+    map['opening_balance_minor_units'] =
+        Variable<int>(openingBalanceMinorUnits);
+    map['opening_balance_currency'] = Variable<String>(openingBalanceCurrency);
+    if (!nullToAbsent || closingBalanceMinorUnits != null) {
+      map['closing_balance_minor_units'] =
+          Variable<int>(closingBalanceMinorUnits);
+    }
+    if (!nullToAbsent || closingBalanceCurrency != null) {
+      map['closing_balance_currency'] =
+          Variable<String>(closingBalanceCurrency);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  FinancialCyclesCompanion toCompanion(bool nullToAbsent) {
+    return FinancialCyclesCompanion(
+      id: Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      startDate: Value(startDate),
+      endDate: endDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endDate),
+      status: Value(status),
+      openingBalanceMinorUnits: Value(openingBalanceMinorUnits),
+      openingBalanceCurrency: Value(openingBalanceCurrency),
+      closingBalanceMinorUnits: closingBalanceMinorUnits == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingBalanceMinorUnits),
+      closingBalanceCurrency: closingBalanceCurrency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingBalanceCurrency),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory FinancialCycleRow.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FinancialCycleRow(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String?>(json['name']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime?>(json['endDate']),
+      status: serializer.fromJson<String>(json['status']),
+      openingBalanceMinorUnits:
+          serializer.fromJson<int>(json['openingBalanceMinorUnits']),
+      openingBalanceCurrency:
+          serializer.fromJson<String>(json['openingBalanceCurrency']),
+      closingBalanceMinorUnits:
+          serializer.fromJson<int?>(json['closingBalanceMinorUnits']),
+      closingBalanceCurrency:
+          serializer.fromJson<String?>(json['closingBalanceCurrency']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String?>(name),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime?>(endDate),
+      'status': serializer.toJson<String>(status),
+      'openingBalanceMinorUnits':
+          serializer.toJson<int>(openingBalanceMinorUnits),
+      'openingBalanceCurrency':
+          serializer.toJson<String>(openingBalanceCurrency),
+      'closingBalanceMinorUnits':
+          serializer.toJson<int?>(closingBalanceMinorUnits),
+      'closingBalanceCurrency':
+          serializer.toJson<String?>(closingBalanceCurrency),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  FinancialCycleRow copyWith(
+          {String? id,
+          Value<String?> name = const Value.absent(),
+          DateTime? startDate,
+          Value<DateTime?> endDate = const Value.absent(),
+          String? status,
+          int? openingBalanceMinorUnits,
+          String? openingBalanceCurrency,
+          Value<int?> closingBalanceMinorUnits = const Value.absent(),
+          Value<String?> closingBalanceCurrency = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      FinancialCycleRow(
+        id: id ?? this.id,
+        name: name.present ? name.value : this.name,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate.present ? endDate.value : this.endDate,
+        status: status ?? this.status,
+        openingBalanceMinorUnits:
+            openingBalanceMinorUnits ?? this.openingBalanceMinorUnits,
+        openingBalanceCurrency:
+            openingBalanceCurrency ?? this.openingBalanceCurrency,
+        closingBalanceMinorUnits: closingBalanceMinorUnits.present
+            ? closingBalanceMinorUnits.value
+            : this.closingBalanceMinorUnits,
+        closingBalanceCurrency: closingBalanceCurrency.present
+            ? closingBalanceCurrency.value
+            : this.closingBalanceCurrency,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  FinancialCycleRow copyWithCompanion(FinancialCyclesCompanion data) {
+    return FinancialCycleRow(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+      status: data.status.present ? data.status.value : this.status,
+      openingBalanceMinorUnits: data.openingBalanceMinorUnits.present
+          ? data.openingBalanceMinorUnits.value
+          : this.openingBalanceMinorUnits,
+      openingBalanceCurrency: data.openingBalanceCurrency.present
+          ? data.openingBalanceCurrency.value
+          : this.openingBalanceCurrency,
+      closingBalanceMinorUnits: data.closingBalanceMinorUnits.present
+          ? data.closingBalanceMinorUnits.value
+          : this.closingBalanceMinorUnits,
+      closingBalanceCurrency: data.closingBalanceCurrency.present
+          ? data.closingBalanceCurrency.value
+          : this.closingBalanceCurrency,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FinancialCycleRow(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('status: $status, ')
+          ..write('openingBalanceMinorUnits: $openingBalanceMinorUnits, ')
+          ..write('openingBalanceCurrency: $openingBalanceCurrency, ')
+          ..write('closingBalanceMinorUnits: $closingBalanceMinorUnits, ')
+          ..write('closingBalanceCurrency: $closingBalanceCurrency, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      name,
+      startDate,
+      endDate,
+      status,
+      openingBalanceMinorUnits,
+      openingBalanceCurrency,
+      closingBalanceMinorUnits,
+      closingBalanceCurrency,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FinancialCycleRow &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.status == this.status &&
+          other.openingBalanceMinorUnits == this.openingBalanceMinorUnits &&
+          other.openingBalanceCurrency == this.openingBalanceCurrency &&
+          other.closingBalanceMinorUnits == this.closingBalanceMinorUnits &&
+          other.closingBalanceCurrency == this.closingBalanceCurrency &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class FinancialCyclesCompanion extends UpdateCompanion<FinancialCycleRow> {
+  final Value<String> id;
+  final Value<String?> name;
+  final Value<DateTime> startDate;
+  final Value<DateTime?> endDate;
+  final Value<String> status;
+  final Value<int> openingBalanceMinorUnits;
+  final Value<String> openingBalanceCurrency;
+  final Value<int?> closingBalanceMinorUnits;
+  final Value<String?> closingBalanceCurrency;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const FinancialCyclesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.status = const Value.absent(),
+    this.openingBalanceMinorUnits = const Value.absent(),
+    this.openingBalanceCurrency = const Value.absent(),
+    this.closingBalanceMinorUnits = const Value.absent(),
+    this.closingBalanceCurrency = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FinancialCyclesCompanion.insert({
+    required String id,
+    this.name = const Value.absent(),
+    required DateTime startDate,
+    this.endDate = const Value.absent(),
+    required String status,
+    required int openingBalanceMinorUnits,
+    this.openingBalanceCurrency = const Value.absent(),
+    this.closingBalanceMinorUnits = const Value.absent(),
+    this.closingBalanceCurrency = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        startDate = Value(startDate),
+        status = Value(status),
+        openingBalanceMinorUnits = Value(openingBalanceMinorUnits),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
+  static Insertable<FinancialCycleRow> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+    Expression<String>? status,
+    Expression<int>? openingBalanceMinorUnits,
+    Expression<String>? openingBalanceCurrency,
+    Expression<int>? closingBalanceMinorUnits,
+    Expression<String>? closingBalanceCurrency,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (status != null) 'status': status,
+      if (openingBalanceMinorUnits != null)
+        'opening_balance_minor_units': openingBalanceMinorUnits,
+      if (openingBalanceCurrency != null)
+        'opening_balance_currency': openingBalanceCurrency,
+      if (closingBalanceMinorUnits != null)
+        'closing_balance_minor_units': closingBalanceMinorUnits,
+      if (closingBalanceCurrency != null)
+        'closing_balance_currency': closingBalanceCurrency,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FinancialCyclesCompanion copyWith(
+      {Value<String>? id,
+      Value<String?>? name,
+      Value<DateTime>? startDate,
+      Value<DateTime?>? endDate,
+      Value<String>? status,
+      Value<int>? openingBalanceMinorUnits,
+      Value<String>? openingBalanceCurrency,
+      Value<int?>? closingBalanceMinorUnits,
+      Value<String?>? closingBalanceCurrency,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
+    return FinancialCyclesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      status: status ?? this.status,
+      openingBalanceMinorUnits:
+          openingBalanceMinorUnits ?? this.openingBalanceMinorUnits,
+      openingBalanceCurrency:
+          openingBalanceCurrency ?? this.openingBalanceCurrency,
+      closingBalanceMinorUnits:
+          closingBalanceMinorUnits ?? this.closingBalanceMinorUnits,
+      closingBalanceCurrency:
+          closingBalanceCurrency ?? this.closingBalanceCurrency,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (openingBalanceMinorUnits.present) {
+      map['opening_balance_minor_units'] =
+          Variable<int>(openingBalanceMinorUnits.value);
+    }
+    if (openingBalanceCurrency.present) {
+      map['opening_balance_currency'] =
+          Variable<String>(openingBalanceCurrency.value);
+    }
+    if (closingBalanceMinorUnits.present) {
+      map['closing_balance_minor_units'] =
+          Variable<int>(closingBalanceMinorUnits.value);
+    }
+    if (closingBalanceCurrency.present) {
+      map['closing_balance_currency'] =
+          Variable<String>(closingBalanceCurrency.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FinancialCyclesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('status: $status, ')
+          ..write('openingBalanceMinorUnits: $openingBalanceMinorUnits, ')
+          ..write('openingBalanceCurrency: $openingBalanceCurrency, ')
+          ..write('closingBalanceMinorUnits: $closingBalanceMinorUnits, ')
+          ..write('closingBalanceCurrency: $closingBalanceCurrency, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $AccountsTable accounts = $AccountsTable(this);
+  late final $FinancialCyclesTable financialCycles =
+      $FinancialCyclesTable(this);
   late final AccountDao accountDao = AccountDao(this as AppDatabase);
+  late final FinancialCycleDao financialCycleDao =
+      FinancialCycleDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [accounts];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [accounts, financialCycles];
 }
 
 typedef $$AccountsTableCreateCompanionBuilder = AccountsCompanion Function({
@@ -636,10 +1250,284 @@ typedef $$AccountsTableProcessedTableManager = ProcessedTableManager<
     (AccountRow, BaseReferences<_$AppDatabase, $AccountsTable, AccountRow>),
     AccountRow,
     PrefetchHooks Function()>;
+typedef $$FinancialCyclesTableCreateCompanionBuilder = FinancialCyclesCompanion
+    Function({
+  required String id,
+  Value<String?> name,
+  required DateTime startDate,
+  Value<DateTime?> endDate,
+  required String status,
+  required int openingBalanceMinorUnits,
+  Value<String> openingBalanceCurrency,
+  Value<int?> closingBalanceMinorUnits,
+  Value<String?> closingBalanceCurrency,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$FinancialCyclesTableUpdateCompanionBuilder = FinancialCyclesCompanion
+    Function({
+  Value<String> id,
+  Value<String?> name,
+  Value<DateTime> startDate,
+  Value<DateTime?> endDate,
+  Value<String> status,
+  Value<int> openingBalanceMinorUnits,
+  Value<String> openingBalanceCurrency,
+  Value<int?> closingBalanceMinorUnits,
+  Value<String?> closingBalanceCurrency,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$FinancialCyclesTableFilterComposer
+    extends Composer<_$AppDatabase, $FinancialCyclesTable> {
+  $$FinancialCyclesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get openingBalanceMinorUnits => $composableBuilder(
+      column: $table.openingBalanceMinorUnits,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get openingBalanceCurrency => $composableBuilder(
+      column: $table.openingBalanceCurrency,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get closingBalanceMinorUnits => $composableBuilder(
+      column: $table.closingBalanceMinorUnits,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get closingBalanceCurrency => $composableBuilder(
+      column: $table.closingBalanceCurrency,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$FinancialCyclesTableOrderingComposer
+    extends Composer<_$AppDatabase, $FinancialCyclesTable> {
+  $$FinancialCyclesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get openingBalanceMinorUnits => $composableBuilder(
+      column: $table.openingBalanceMinorUnits,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get openingBalanceCurrency => $composableBuilder(
+      column: $table.openingBalanceCurrency,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get closingBalanceMinorUnits => $composableBuilder(
+      column: $table.closingBalanceMinorUnits,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get closingBalanceCurrency => $composableBuilder(
+      column: $table.closingBalanceCurrency,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FinancialCyclesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FinancialCyclesTable> {
+  $$FinancialCyclesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get openingBalanceMinorUnits => $composableBuilder(
+      column: $table.openingBalanceMinorUnits, builder: (column) => column);
+
+  GeneratedColumn<String> get openingBalanceCurrency => $composableBuilder(
+      column: $table.openingBalanceCurrency, builder: (column) => column);
+
+  GeneratedColumn<int> get closingBalanceMinorUnits => $composableBuilder(
+      column: $table.closingBalanceMinorUnits, builder: (column) => column);
+
+  GeneratedColumn<String> get closingBalanceCurrency => $composableBuilder(
+      column: $table.closingBalanceCurrency, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$FinancialCyclesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $FinancialCyclesTable,
+    FinancialCycleRow,
+    $$FinancialCyclesTableFilterComposer,
+    $$FinancialCyclesTableOrderingComposer,
+    $$FinancialCyclesTableAnnotationComposer,
+    $$FinancialCyclesTableCreateCompanionBuilder,
+    $$FinancialCyclesTableUpdateCompanionBuilder,
+    (
+      FinancialCycleRow,
+      BaseReferences<_$AppDatabase, $FinancialCyclesTable, FinancialCycleRow>
+    ),
+    FinancialCycleRow,
+    PrefetchHooks Function()> {
+  $$FinancialCyclesTableTableManager(
+      _$AppDatabase db, $FinancialCyclesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FinancialCyclesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FinancialCyclesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FinancialCyclesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<DateTime> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<int> openingBalanceMinorUnits = const Value.absent(),
+            Value<String> openingBalanceCurrency = const Value.absent(),
+            Value<int?> closingBalanceMinorUnits = const Value.absent(),
+            Value<String?> closingBalanceCurrency = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FinancialCyclesCompanion(
+            id: id,
+            name: name,
+            startDate: startDate,
+            endDate: endDate,
+            status: status,
+            openingBalanceMinorUnits: openingBalanceMinorUnits,
+            openingBalanceCurrency: openingBalanceCurrency,
+            closingBalanceMinorUnits: closingBalanceMinorUnits,
+            closingBalanceCurrency: closingBalanceCurrency,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            Value<String?> name = const Value.absent(),
+            required DateTime startDate,
+            Value<DateTime?> endDate = const Value.absent(),
+            required String status,
+            required int openingBalanceMinorUnits,
+            Value<String> openingBalanceCurrency = const Value.absent(),
+            Value<int?> closingBalanceMinorUnits = const Value.absent(),
+            Value<String?> closingBalanceCurrency = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              FinancialCyclesCompanion.insert(
+            id: id,
+            name: name,
+            startDate: startDate,
+            endDate: endDate,
+            status: status,
+            openingBalanceMinorUnits: openingBalanceMinorUnits,
+            openingBalanceCurrency: openingBalanceCurrency,
+            closingBalanceMinorUnits: closingBalanceMinorUnits,
+            closingBalanceCurrency: closingBalanceCurrency,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FinancialCyclesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $FinancialCyclesTable,
+    FinancialCycleRow,
+    $$FinancialCyclesTableFilterComposer,
+    $$FinancialCyclesTableOrderingComposer,
+    $$FinancialCyclesTableAnnotationComposer,
+    $$FinancialCyclesTableCreateCompanionBuilder,
+    $$FinancialCyclesTableUpdateCompanionBuilder,
+    (
+      FinancialCycleRow,
+      BaseReferences<_$AppDatabase, $FinancialCyclesTable, FinancialCycleRow>
+    ),
+    FinancialCycleRow,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$AccountsTableTableManager get accounts =>
       $$AccountsTableTableManager(_db, _db.accounts);
+  $$FinancialCyclesTableTableManager get financialCycles =>
+      $$FinancialCyclesTableTableManager(_db, _db.financialCycles);
 }
