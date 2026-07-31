@@ -36,7 +36,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build web --release --base-href /WebFunds/
+      - run: flutter build web --release --base-href /WebFunds/ --no-web-resources-cdn
 
       - uses: actions/configure-pages@v5
 
