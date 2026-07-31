@@ -1,0 +1,36 @@
+{
+    "name": "WebFunds",
+    "short_name": "WebFunds",
+    "start_url": "/WebFunds/",
+    "scope": "/WebFunds/",
+    "display": "standalone",
+    "background_color": "#0B0D12",
+    "theme_color": "#3D7DFF",
+    "description": "WebFunds — personal financial operating system.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
