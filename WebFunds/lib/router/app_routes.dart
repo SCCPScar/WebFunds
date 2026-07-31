@@ -11,6 +11,9 @@ class AppRoutes {
   static const String faceId = '/face-id';
   static const String faceIdName = 'faceId';
 
+  static const String accounts = '/accounts';
+  static const String accountsName = 'accounts';
+
   // The 5 documented sections, each an independent branch of the Shell's
   // StatefulShellRoute.
   static const String central = '/central';

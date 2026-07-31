@@ -21,10 +21,19 @@ class AppIcons {
   static const IconData eyeVisible = BootstrapIcons.eye;
   static const IconData eyeHidden = BootstrapIcons.eye_slash;
   static const IconData error = BootstrapIcons.exclamation_circle;
+  static const IconData add = BootstrapIcons.plus_lg;
+  static const IconData archive = BootstrapIcons.archive;
 
   /// Bootstrap Icons has no dedicated "Face ID" glyph — `fingerprint` is
   /// used generically to represent biometric authentication.
   static const IconData biometric = BootstrapIcons.fingerprint;
 
   static const IconData activity = BootstrapIcons.clock_history;
+
+  // --- Account types ---
+  static const IconData accountChecking = BootstrapIcons.bank2;
+  static const IconData accountSavings = BootstrapIcons.piggy_bank;
+  static const IconData accountCash = BootstrapIcons.cash_stack;
+  static const IconData accountCreditCard = BootstrapIcons.credit_card_fill;
+  static const IconData accountInvestment = BootstrapIcons.graph_up_arrow;
 }

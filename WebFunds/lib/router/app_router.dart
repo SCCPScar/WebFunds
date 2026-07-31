@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../config/env_config.dart';
 import '../core/animation/page_transitions.dart';
 import '../core/errors/failure.dart';
+import '../features/accounts/presentation/pages/accounts_page.dart';
 import '../features/auth/presentation/controllers/auth_gate_controller.dart';
 import '../features/auth/presentation/pages/face_id_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -80,6 +81,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.faceIdName,
         pageBuilder: (context, state) =>
             PageTransitions.fade(key: state.pageKey, child: const FaceIdPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.accounts,
+        name: AppRoutes.accountsName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fadeThroughSlide(key: state.pageKey, child: const AccountsPage()),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

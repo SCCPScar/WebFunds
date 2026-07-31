@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Reusable form text field. Wraps `TextFormField` with WebFunds' visual
 /// defaults already carried by `InputDecorationTheme`.
@@ -12,6 +13,7 @@ class AppTextField extends StatelessWidget {
     this.validator,
     this.suffixIcon,
     this.autofillHints,
+    this.inputFormatters,
   });
 
   final String label;
@@ -21,6 +23,7 @@ class AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final Iterable<String>? autofillHints;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       autofillHints: autofillHints,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: label,
         suffixIcon: suffixIcon,
