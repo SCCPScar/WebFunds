@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../design_system/breakpoints/app_breakpoints.dart';
+import '../design_system/icons/app_icons.dart';
+import '../router/app_routes.dart';
 import '../shared/widgets/app_offline_banner.dart';
 import 'app_shell_destination.dart';
 
@@ -28,7 +30,16 @@ class AppShell extends StatelessWidget {
     final currentIndex = navigationShell.currentIndex;
 
     return Scaffold(
-      appBar: AppBar(title: Text(appShellDestinations[currentIndex].label)),
+      appBar: AppBar(
+        title: Text(appShellDestinations[currentIndex].label),
+        actions: [
+          IconButton(
+            icon: const Icon(AppIcons.profile),
+            tooltip: 'Perfil',
+            onPressed: () => context.push(AppRoutes.profile),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           const AppOfflineBanner(),

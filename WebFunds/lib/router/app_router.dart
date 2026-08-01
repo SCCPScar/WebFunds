@@ -14,6 +14,7 @@ import '../features/central/presentation/pages/central_page.dart';
 import '../features/dreams/presentation/pages/dreams_page.dart';
 import '../features/finances/presentation/pages/finances_page.dart';
 import '../features/mysteries/presentation/pages/mysteries_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/subscriptions/presentation/pages/subscriptions_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
 import '../features/weaver/presentation/pages/weaver_page.dart';
@@ -101,6 +102,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.subscriptionsName,
         pageBuilder: (context, state) =>
             PageTransitions.fadeThroughSlide(key: state.pageKey, child: const SubscriptionsPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        name: AppRoutes.profileName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fadeThroughSlide(key: state.pageKey, child: const ProfilePage()),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
