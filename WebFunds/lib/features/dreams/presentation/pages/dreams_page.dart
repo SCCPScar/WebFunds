@@ -19,127 +19,141 @@ import '../widgets/create_dream_form.dart';
 import '../widgets/dream_list_tile.dart';
 import '../widgets/dream_movement_form.dart';
 
-/// Lists Dreams and lets the owner create one, contribute, or withdraw —
-/// same structure `AccountsPage`/`FinancesPage` established.
+/// Standalone route reached from Central's `GoalsSection` — has its own
+/// Scaffold/AppBar/FAB, since it's pushed outside the shell. `VaultPage`
+/// is this same feature's shell-branch home (`docs/01-Experience/04-Vault.md`:
+/// "A Vault Goal" is this Dream) and reuses [DreamsListBody] +
+/// [openCreateDreamForm] directly, without a second Scaffold/AppBar.
 class DreamsPage extends ConsumerWidget {
   const DreamsPage({super.key});
 
-  void _openCreateForm(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (sheetContext) {
-        return SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: AppSpacing.xl,
-            right: AppSpacing.xl,
-            top: AppSpacing.xl,
-            bottom: MediaQuery.of(sheetContext).viewInsets.bottom + AppSpacing.xl,
-          ),
-          child: Consumer(
-            builder: (context, ref, _) {
-              final state = ref.watch(createDreamControllerProvider);
-
-              ref.listen<CreateDreamState>(createDreamControllerProvider, (previous, next) {
-                if (next is CreateDreamFailed) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(next.failure.message)));
-                }
-                if (next is CreateDreamSuccess) {
-                  ref.read(createDreamControllerProvider.notifier).reset();
-                  Navigator.of(sheetContext).pop();
-                }
-              });
-
-              return CreateDreamForm(
-                isLoading: state is CreateDreamLoading,
-                onSubmit: (name, targetAmount, description, targetDate, category) {
-                  ref.read(createDreamControllerProvider.notifier).submit(
-                        name: name,
-                        targetAmount: targetAmount,
-                        description: description,
-                        targetDate: targetDate,
-                        category: category,
-                      );
-                },
-              );
-            },
-          ),
-        );
-      },
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Objetivos')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => openCreateDreamForm(context, ref),
+        tooltip: 'Adicionar objetivo',
+        child: const Icon(AppIcons.add),
+      ),
+      body: const DreamsListBody(),
     );
   }
+}
 
-  void _openDreamDetail(BuildContext context, WidgetRef ref, Dream dream) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (sheetContext) {
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.7,
-          builder: (context, scrollController) {
-            return _DreamDetailSheet(dream: dream, scrollController: scrollController);
-          },
-        );
-      },
-    );
-  }
+/// The actual list — extracted so `VaultPage` can show identical content
+/// without a second Scaffold/AppBar (`AppShell` already supplies one).
+class DreamsListBody extends ConsumerWidget {
+  const DreamsListBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dreamsAsync = ref.watch(activeDreamsStreamProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Objetivos')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openCreateForm(context, ref),
-        tooltip: 'Adicionar objetivo',
-        child: const Icon(AppIcons.add),
-      ),
-      body: dreamsAsync.when(
-        loading: () => const AppLoadingIndicator(message: 'A carregar os teus objetivos...'),
-        error: (error, stackTrace) {
-          ref.read(appLoggerProvider).error(
-            'Falha inesperada ao carregar os objetivos.',
-            tag: 'DreamsPage',
-            error: error,
-            stackTrace: stackTrace,
-          );
-          return AppErrorView(
-            failure: const UnknownFailure(),
-            onRetry: () => ref.invalidate(activeDreamsStreamProvider),
+    return dreamsAsync.when(
+      loading: () => const AppLoadingIndicator(message: 'A carregar os teus objetivos...'),
+      error: (error, stackTrace) {
+        ref.read(appLoggerProvider).error(
+          'Falha inesperada ao carregar os objetivos.',
+          tag: 'DreamsPage',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        return AppErrorView(
+          failure: const UnknownFailure(),
+          onRetry: () => ref.invalidate(activeDreamsStreamProvider),
+        );
+      },
+      data: (result) => result.fold(
+        onSuccess: (dreams) {
+          if (dreams.isEmpty) {
+            return const AppEmptyState(
+              icon: AppIcons.dreams,
+              message: 'Ainda não tens objetivos. Cria o primeiro e começa a reservar dinheiro.',
+            );
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            itemCount: dreams.length,
+            separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.sm),
+            itemBuilder: (context, index) {
+              final dream = dreams[index];
+              return DreamListTile(
+                dream: dream,
+                onTap: () => openDreamDetail(context, ref, dream),
+              );
+            },
           );
         },
-        data: (result) => result.fold(
-          onSuccess: (dreams) {
-            if (dreams.isEmpty) {
-              return const AppEmptyState(
-                icon: AppIcons.dreams,
-                message: 'Ainda não tens objetivos. Cria o primeiro e começa a reservar dinheiro.',
-              );
-            }
-            return ListView.separated(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              itemCount: dreams.length,
-              separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.sm),
-              itemBuilder: (context, index) {
-                final dream = dreams[index];
-                return DreamListTile(
-                  dream: dream,
-                  onTap: () => _openDreamDetail(context, ref, dream),
-                );
-              },
-            );
-          },
-          onError: (failure) => AppErrorView(
-            failure: failure,
-            onRetry: () => ref.invalidate(activeDreamsStreamProvider),
-          ),
+        onError: (failure) => AppErrorView(
+          failure: failure,
+          onRetry: () => ref.invalidate(activeDreamsStreamProvider),
         ),
       ),
     );
   }
+}
+
+void openCreateDreamForm(BuildContext context, WidgetRef ref) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    builder: (sheetContext) {
+      return SingleChildScrollView(
+        padding: EdgeInsets.only(
+          left: AppSpacing.xl,
+          right: AppSpacing.xl,
+          top: AppSpacing.xl,
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom + AppSpacing.xl,
+        ),
+        child: Consumer(
+          builder: (context, ref, _) {
+            final state = ref.watch(createDreamControllerProvider);
+
+            ref.listen<CreateDreamState>(createDreamControllerProvider, (previous, next) {
+              if (next is CreateDreamFailed) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(next.failure.message)));
+              }
+              if (next is CreateDreamSuccess) {
+                ref.read(createDreamControllerProvider.notifier).reset();
+                Navigator.of(sheetContext).pop();
+              }
+            });
+
+            return CreateDreamForm(
+              isLoading: state is CreateDreamLoading,
+              onSubmit: (name, targetAmount, description, targetDate, category) {
+                ref.read(createDreamControllerProvider.notifier).submit(
+                      name: name,
+                      targetAmount: targetAmount,
+                      description: description,
+                      targetDate: targetDate,
+                      category: category,
+                    );
+              },
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+void openDreamDetail(BuildContext context, WidgetRef ref, Dream dream) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    builder: (sheetContext) {
+      return DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.7,
+        builder: (context, scrollController) {
+          return _DreamDetailSheet(dream: dream, scrollController: scrollController);
+        },
+      );
+    },
+  );
 }
 
 class _DreamDetailSheet extends ConsumerWidget {
