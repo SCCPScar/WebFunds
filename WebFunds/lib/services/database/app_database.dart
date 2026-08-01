@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'daos/account_dao.dart';
 import 'daos/dream_dao.dart';
 import 'daos/financial_cycle_dao.dart';
+import 'daos/linked_bank_account_dao.dart';
 import 'daos/memory_dao.dart';
 import 'daos/mystery_dao.dart';
 import 'daos/notification_dao.dart';
@@ -14,6 +15,7 @@ import 'tables/accounts_table.dart';
 import 'tables/dream_movements_table.dart';
 import 'tables/dreams_table.dart';
 import 'tables/financial_cycles_table.dart';
+import 'tables/linked_bank_accounts_table.dart';
 import 'tables/memories_table.dart';
 import 'tables/mysteries_table.dart';
 import 'tables/notifications_table.dart';
@@ -34,6 +36,7 @@ part 'app_database.g.dart';
     Mysteries,
     Memories,
     Notifications,
+    LinkedBankAccounts,
   ],
   daos: [
     AccountDao,
@@ -44,6 +47,7 @@ part 'app_database.g.dart';
     MysteryDao,
     MemoryDao,
     NotificationDao,
+    LinkedBankAccountDao,
   ],
 )
 class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
@@ -53,7 +57,7 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -80,6 +84,9 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
           }
           if (from < 8) {
             await m.createTable(notifications);
+          }
+          if (from < 9) {
+            await m.createTable(linkedBankAccounts);
           }
         },
       );

@@ -21,6 +21,8 @@ import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/search/presentation/pages/search_page.dart';
 import '../features/subscriptions/presentation/pages/subscriptions_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
+import '../features/weaver/presentation/pages/banking_callback_page.dart';
+import '../features/weaver/presentation/pages/banking_page.dart';
 import '../features/weaver/presentation/pages/weaver_page.dart';
 import '../navigation/app_navigation_context.dart';
 import '../navigation/app_navigation_resolver_provider.dart';
@@ -139,6 +141,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.searchName,
         pageBuilder: (context, state) =>
             PageTransitions.fadeThroughSlide(key: state.pageKey, child: const SearchPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.banking,
+        name: AppRoutes.bankingName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fadeThroughSlide(key: state.pageKey, child: const BankingPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.bankingCallback,
+        name: AppRoutes.bankingCallbackName,
+        pageBuilder: (context, state) => PageTransitions.fadeThroughSlide(
+          key: state.pageKey,
+          child: BankingCallbackPage(code: state.uri.queryParameters['code']),
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),

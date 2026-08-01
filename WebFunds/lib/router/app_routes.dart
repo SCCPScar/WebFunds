@@ -32,6 +32,12 @@ class AppRoutes {
   static const String search = '/search';
   static const String searchName = 'search';
 
+  static const String banking = '/banking';
+  static const String bankingName = 'banking';
+
+  static const String bankingCallback = '/banking/callback';
+  static const String bankingCallbackName = 'bankingCallback';
+
   // The 5 documented sections, each an independent branch of the Shell's
   // StatefulShellRoute.
   static const String central = '/central';

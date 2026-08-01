@@ -63,4 +63,8 @@ class AppIcons {
   static const IconData weaverPlanning = BootstrapIcons.calendar_month_fill;
   static const IconData weaverForecast = BootstrapIcons.graph_up;
   static const IconData weaverBills = BootstrapIcons.receipt;
+
+  // --- Banking (Milestone 6) ---
+  static const IconData banking = BootstrapIcons.bank;
+  static const IconData unlink = BootstrapIcons.x_circle;
 }

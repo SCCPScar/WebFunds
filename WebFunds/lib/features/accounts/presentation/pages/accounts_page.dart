@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../../../design_system/icons/app_icons.dart';
 import '../../../../design_system/spacing/app_spacing.dart';
+import '../../../../router/app_routes.dart';
 import '../../../../services/logging/app_logger.dart';
 import '../../../../shared/widgets/app_empty_state.dart';
 import '../../../../shared/widgets/app_error_view.dart';
@@ -81,7 +83,16 @@ class AccountsPage extends ConsumerWidget {
     final balances = balancesAsync.value?.dataOrNull ?? const <String, Money>{};
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Contas')),
+      appBar: AppBar(
+        title: const Text('Contas'),
+        actions: [
+          IconButton(
+            icon: const Icon(AppIcons.banking),
+            tooltip: 'Ligar banco',
+            onPressed: () => context.push(AppRoutes.banking),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openCreateForm(context, ref),
         tooltip: 'Adicionar conta',

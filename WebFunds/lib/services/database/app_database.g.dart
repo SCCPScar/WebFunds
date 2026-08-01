@@ -4670,6 +4670,325 @@ class NotificationsCompanion extends UpdateCompanion<NotificationRow> {
   }
 }
 
+class $LinkedBankAccountsTable extends LinkedBankAccounts
+    with TableInfo<$LinkedBankAccountsTable, LinkedBankAccountRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LinkedBankAccountsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _institutionNameMeta =
+      const VerificationMeta('institutionName');
+  @override
+  late final GeneratedColumn<String> institutionName = GeneratedColumn<String>(
+      'institution_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _ibanMeta = const VerificationMeta('iban');
+  @override
+  late final GeneratedColumn<String> iban = GeneratedColumn<String>(
+      'iban', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _displayNameMeta =
+      const VerificationMeta('displayName');
+  @override
+  late final GeneratedColumn<String> displayName = GeneratedColumn<String>(
+      'display_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _linkedAtMeta =
+      const VerificationMeta('linkedAt');
+  @override
+  late final GeneratedColumn<DateTime> linkedAt = GeneratedColumn<DateTime>(
+      'linked_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, institutionName, iban, displayName, linkedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'linked_bank_accounts';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<LinkedBankAccountRow> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('institution_name')) {
+      context.handle(
+          _institutionNameMeta,
+          institutionName.isAcceptableOrUnknown(
+              data['institution_name']!, _institutionNameMeta));
+    } else if (isInserting) {
+      context.missing(_institutionNameMeta);
+    }
+    if (data.containsKey('iban')) {
+      context.handle(
+          _ibanMeta, iban.isAcceptableOrUnknown(data['iban']!, _ibanMeta));
+    } else if (isInserting) {
+      context.missing(_ibanMeta);
+    }
+    if (data.containsKey('display_name')) {
+      context.handle(
+          _displayNameMeta,
+          displayName.isAcceptableOrUnknown(
+              data['display_name']!, _displayNameMeta));
+    } else if (isInserting) {
+      context.missing(_displayNameMeta);
+    }
+    if (data.containsKey('linked_at')) {
+      context.handle(_linkedAtMeta,
+          linkedAt.isAcceptableOrUnknown(data['linked_at']!, _linkedAtMeta));
+    } else if (isInserting) {
+      context.missing(_linkedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LinkedBankAccountRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LinkedBankAccountRow(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      institutionName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}institution_name'])!,
+      iban: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}iban'])!,
+      displayName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}display_name'])!,
+      linkedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}linked_at'])!,
+    );
+  }
+
+  @override
+  $LinkedBankAccountsTable createAlias(String alias) {
+    return $LinkedBankAccountsTable(attachedDatabase, alias);
+  }
+}
+
+class LinkedBankAccountRow extends DataClass
+    implements Insertable<LinkedBankAccountRow> {
+  final String id;
+  final String institutionName;
+  final String iban;
+  final String displayName;
+  final DateTime linkedAt;
+  const LinkedBankAccountRow(
+      {required this.id,
+      required this.institutionName,
+      required this.iban,
+      required this.displayName,
+      required this.linkedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['institution_name'] = Variable<String>(institutionName);
+    map['iban'] = Variable<String>(iban);
+    map['display_name'] = Variable<String>(displayName);
+    map['linked_at'] = Variable<DateTime>(linkedAt);
+    return map;
+  }
+
+  LinkedBankAccountsCompanion toCompanion(bool nullToAbsent) {
+    return LinkedBankAccountsCompanion(
+      id: Value(id),
+      institutionName: Value(institutionName),
+      iban: Value(iban),
+      displayName: Value(displayName),
+      linkedAt: Value(linkedAt),
+    );
+  }
+
+  factory LinkedBankAccountRow.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LinkedBankAccountRow(
+      id: serializer.fromJson<String>(json['id']),
+      institutionName: serializer.fromJson<String>(json['institutionName']),
+      iban: serializer.fromJson<String>(json['iban']),
+      displayName: serializer.fromJson<String>(json['displayName']),
+      linkedAt: serializer.fromJson<DateTime>(json['linkedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'institutionName': serializer.toJson<String>(institutionName),
+      'iban': serializer.toJson<String>(iban),
+      'displayName': serializer.toJson<String>(displayName),
+      'linkedAt': serializer.toJson<DateTime>(linkedAt),
+    };
+  }
+
+  LinkedBankAccountRow copyWith(
+          {String? id,
+          String? institutionName,
+          String? iban,
+          String? displayName,
+          DateTime? linkedAt}) =>
+      LinkedBankAccountRow(
+        id: id ?? this.id,
+        institutionName: institutionName ?? this.institutionName,
+        iban: iban ?? this.iban,
+        displayName: displayName ?? this.displayName,
+        linkedAt: linkedAt ?? this.linkedAt,
+      );
+  LinkedBankAccountRow copyWithCompanion(LinkedBankAccountsCompanion data) {
+    return LinkedBankAccountRow(
+      id: data.id.present ? data.id.value : this.id,
+      institutionName: data.institutionName.present
+          ? data.institutionName.value
+          : this.institutionName,
+      iban: data.iban.present ? data.iban.value : this.iban,
+      displayName:
+          data.displayName.present ? data.displayName.value : this.displayName,
+      linkedAt: data.linkedAt.present ? data.linkedAt.value : this.linkedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LinkedBankAccountRow(')
+          ..write('id: $id, ')
+          ..write('institutionName: $institutionName, ')
+          ..write('iban: $iban, ')
+          ..write('displayName: $displayName, ')
+          ..write('linkedAt: $linkedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, institutionName, iban, displayName, linkedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LinkedBankAccountRow &&
+          other.id == this.id &&
+          other.institutionName == this.institutionName &&
+          other.iban == this.iban &&
+          other.displayName == this.displayName &&
+          other.linkedAt == this.linkedAt);
+}
+
+class LinkedBankAccountsCompanion
+    extends UpdateCompanion<LinkedBankAccountRow> {
+  final Value<String> id;
+  final Value<String> institutionName;
+  final Value<String> iban;
+  final Value<String> displayName;
+  final Value<DateTime> linkedAt;
+  final Value<int> rowid;
+  const LinkedBankAccountsCompanion({
+    this.id = const Value.absent(),
+    this.institutionName = const Value.absent(),
+    this.iban = const Value.absent(),
+    this.displayName = const Value.absent(),
+    this.linkedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LinkedBankAccountsCompanion.insert({
+    required String id,
+    required String institutionName,
+    required String iban,
+    required String displayName,
+    required DateTime linkedAt,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        institutionName = Value(institutionName),
+        iban = Value(iban),
+        displayName = Value(displayName),
+        linkedAt = Value(linkedAt);
+  static Insertable<LinkedBankAccountRow> custom({
+    Expression<String>? id,
+    Expression<String>? institutionName,
+    Expression<String>? iban,
+    Expression<String>? displayName,
+    Expression<DateTime>? linkedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (institutionName != null) 'institution_name': institutionName,
+      if (iban != null) 'iban': iban,
+      if (displayName != null) 'display_name': displayName,
+      if (linkedAt != null) 'linked_at': linkedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LinkedBankAccountsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? institutionName,
+      Value<String>? iban,
+      Value<String>? displayName,
+      Value<DateTime>? linkedAt,
+      Value<int>? rowid}) {
+    return LinkedBankAccountsCompanion(
+      id: id ?? this.id,
+      institutionName: institutionName ?? this.institutionName,
+      iban: iban ?? this.iban,
+      displayName: displayName ?? this.displayName,
+      linkedAt: linkedAt ?? this.linkedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (institutionName.present) {
+      map['institution_name'] = Variable<String>(institutionName.value);
+    }
+    if (iban.present) {
+      map['iban'] = Variable<String>(iban.value);
+    }
+    if (displayName.present) {
+      map['display_name'] = Variable<String>(displayName.value);
+    }
+    if (linkedAt.present) {
+      map['linked_at'] = Variable<DateTime>(linkedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LinkedBankAccountsCompanion(')
+          ..write('id: $id, ')
+          ..write('institutionName: $institutionName, ')
+          ..write('iban: $iban, ')
+          ..write('displayName: $displayName, ')
+          ..write('linkedAt: $linkedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4683,6 +5002,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MysteriesTable mysteries = $MysteriesTable(this);
   late final $MemoriesTable memories = $MemoriesTable(this);
   late final $NotificationsTable notifications = $NotificationsTable(this);
+  late final $LinkedBankAccountsTable linkedBankAccounts =
+      $LinkedBankAccountsTable(this);
   late final AccountDao accountDao = AccountDao(this as AppDatabase);
   late final FinancialCycleDao financialCycleDao =
       FinancialCycleDao(this as AppDatabase);
@@ -4695,6 +5016,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final MemoryDao memoryDao = MemoryDao(this as AppDatabase);
   late final NotificationDao notificationDao =
       NotificationDao(this as AppDatabase);
+  late final LinkedBankAccountDao linkedBankAccountDao =
+      LinkedBankAccountDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4708,7 +5031,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         subscriptions,
         mysteries,
         memories,
-        notifications
+        notifications,
+        linkedBankAccounts
       ];
 }
 
@@ -6896,6 +7220,185 @@ typedef $$NotificationsTableProcessedTableManager = ProcessedTableManager<
     ),
     NotificationRow,
     PrefetchHooks Function()>;
+typedef $$LinkedBankAccountsTableCreateCompanionBuilder
+    = LinkedBankAccountsCompanion Function({
+  required String id,
+  required String institutionName,
+  required String iban,
+  required String displayName,
+  required DateTime linkedAt,
+  Value<int> rowid,
+});
+typedef $$LinkedBankAccountsTableUpdateCompanionBuilder
+    = LinkedBankAccountsCompanion Function({
+  Value<String> id,
+  Value<String> institutionName,
+  Value<String> iban,
+  Value<String> displayName,
+  Value<DateTime> linkedAt,
+  Value<int> rowid,
+});
+
+class $$LinkedBankAccountsTableFilterComposer
+    extends Composer<_$AppDatabase, $LinkedBankAccountsTable> {
+  $$LinkedBankAccountsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get institutionName => $composableBuilder(
+      column: $table.institutionName,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get iban => $composableBuilder(
+      column: $table.iban, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get displayName => $composableBuilder(
+      column: $table.displayName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get linkedAt => $composableBuilder(
+      column: $table.linkedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$LinkedBankAccountsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LinkedBankAccountsTable> {
+  $$LinkedBankAccountsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get institutionName => $composableBuilder(
+      column: $table.institutionName,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get iban => $composableBuilder(
+      column: $table.iban, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get displayName => $composableBuilder(
+      column: $table.displayName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get linkedAt => $composableBuilder(
+      column: $table.linkedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$LinkedBankAccountsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LinkedBankAccountsTable> {
+  $$LinkedBankAccountsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get institutionName => $composableBuilder(
+      column: $table.institutionName, builder: (column) => column);
+
+  GeneratedColumn<String> get iban =>
+      $composableBuilder(column: $table.iban, builder: (column) => column);
+
+  GeneratedColumn<String> get displayName => $composableBuilder(
+      column: $table.displayName, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get linkedAt =>
+      $composableBuilder(column: $table.linkedAt, builder: (column) => column);
+}
+
+class $$LinkedBankAccountsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $LinkedBankAccountsTable,
+    LinkedBankAccountRow,
+    $$LinkedBankAccountsTableFilterComposer,
+    $$LinkedBankAccountsTableOrderingComposer,
+    $$LinkedBankAccountsTableAnnotationComposer,
+    $$LinkedBankAccountsTableCreateCompanionBuilder,
+    $$LinkedBankAccountsTableUpdateCompanionBuilder,
+    (
+      LinkedBankAccountRow,
+      BaseReferences<_$AppDatabase, $LinkedBankAccountsTable,
+          LinkedBankAccountRow>
+    ),
+    LinkedBankAccountRow,
+    PrefetchHooks Function()> {
+  $$LinkedBankAccountsTableTableManager(
+      _$AppDatabase db, $LinkedBankAccountsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LinkedBankAccountsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LinkedBankAccountsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LinkedBankAccountsTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> institutionName = const Value.absent(),
+            Value<String> iban = const Value.absent(),
+            Value<String> displayName = const Value.absent(),
+            Value<DateTime> linkedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LinkedBankAccountsCompanion(
+            id: id,
+            institutionName: institutionName,
+            iban: iban,
+            displayName: displayName,
+            linkedAt: linkedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String institutionName,
+            required String iban,
+            required String displayName,
+            required DateTime linkedAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LinkedBankAccountsCompanion.insert(
+            id: id,
+            institutionName: institutionName,
+            iban: iban,
+            displayName: displayName,
+            linkedAt: linkedAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$LinkedBankAccountsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $LinkedBankAccountsTable,
+    LinkedBankAccountRow,
+    $$LinkedBankAccountsTableFilterComposer,
+    $$LinkedBankAccountsTableOrderingComposer,
+    $$LinkedBankAccountsTableAnnotationComposer,
+    $$LinkedBankAccountsTableCreateCompanionBuilder,
+    $$LinkedBankAccountsTableUpdateCompanionBuilder,
+    (
+      LinkedBankAccountRow,
+      BaseReferences<_$AppDatabase, $LinkedBankAccountsTable,
+          LinkedBankAccountRow>
+    ),
+    LinkedBankAccountRow,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6918,4 +7421,6 @@ class $AppDatabaseManager {
       $$MemoriesTableTableManager(_db, _db.memories);
   $$NotificationsTableTableManager get notifications =>
       $$NotificationsTableTableManager(_db, _db.notifications);
+  $$LinkedBankAccountsTableTableManager get linkedBankAccounts =>
+      $$LinkedBankAccountsTableTableManager(_db, _db.linkedBankAccounts);
 }
