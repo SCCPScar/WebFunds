@@ -2732,6 +2732,593 @@ class DreamMovementsCompanion extends UpdateCompanion<DreamMovementRow> {
   }
 }
 
+class $SubscriptionsTable extends Subscriptions
+    with TableInfo<$SubscriptionsTable, SubscriptionRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SubscriptionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _merchantMeta =
+      const VerificationMeta('merchant');
+  @override
+  late final GeneratedColumn<String> merchant = GeneratedColumn<String>(
+      'merchant', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _expectedAmountMinorUnitsMeta =
+      const VerificationMeta('expectedAmountMinorUnits');
+  @override
+  late final GeneratedColumn<int> expectedAmountMinorUnits =
+      GeneratedColumn<int>('expected_amount_minor_units', aliasedName, false,
+          type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _expectedAmountCurrencyMeta =
+      const VerificationMeta('expectedAmountCurrency');
+  @override
+  late final GeneratedColumn<String> expectedAmountCurrency =
+      GeneratedColumn<String>('expected_amount_currency', aliasedName, false,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          defaultValue: const Constant('€'));
+  static const VerificationMeta _frequencyMeta =
+      const VerificationMeta('frequency');
+  @override
+  late final GeneratedColumn<String> frequency = GeneratedColumn<String>(
+      'frequency', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nextExpectedDateMeta =
+      const VerificationMeta('nextExpectedDate');
+  @override
+  late final GeneratedColumn<DateTime> nextExpectedDate =
+      GeneratedColumn<DateTime>('next_expected_date', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        merchant,
+        expectedAmountMinorUnits,
+        expectedAmountCurrency,
+        frequency,
+        status,
+        nextExpectedDate,
+        category,
+        notes,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'subscriptions';
+  @override
+  VerificationContext validateIntegrity(Insertable<SubscriptionRow> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('merchant')) {
+      context.handle(_merchantMeta,
+          merchant.isAcceptableOrUnknown(data['merchant']!, _merchantMeta));
+    } else if (isInserting) {
+      context.missing(_merchantMeta);
+    }
+    if (data.containsKey('expected_amount_minor_units')) {
+      context.handle(
+          _expectedAmountMinorUnitsMeta,
+          expectedAmountMinorUnits.isAcceptableOrUnknown(
+              data['expected_amount_minor_units']!,
+              _expectedAmountMinorUnitsMeta));
+    } else if (isInserting) {
+      context.missing(_expectedAmountMinorUnitsMeta);
+    }
+    if (data.containsKey('expected_amount_currency')) {
+      context.handle(
+          _expectedAmountCurrencyMeta,
+          expectedAmountCurrency.isAcceptableOrUnknown(
+              data['expected_amount_currency']!, _expectedAmountCurrencyMeta));
+    }
+    if (data.containsKey('frequency')) {
+      context.handle(_frequencyMeta,
+          frequency.isAcceptableOrUnknown(data['frequency']!, _frequencyMeta));
+    } else if (isInserting) {
+      context.missing(_frequencyMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('next_expected_date')) {
+      context.handle(
+          _nextExpectedDateMeta,
+          nextExpectedDate.isAcceptableOrUnknown(
+              data['next_expected_date']!, _nextExpectedDateMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SubscriptionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SubscriptionRow(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      merchant: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}merchant'])!,
+      expectedAmountMinorUnits: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}expected_amount_minor_units'])!,
+      expectedAmountCurrency: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}expected_amount_currency'])!,
+      frequency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}frequency'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
+      nextExpectedDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}next_expected_date']),
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category']),
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  $SubscriptionsTable createAlias(String alias) {
+    return $SubscriptionsTable(attachedDatabase, alias);
+  }
+}
+
+class SubscriptionRow extends DataClass implements Insertable<SubscriptionRow> {
+  final String id;
+  final String merchant;
+  final int expectedAmountMinorUnits;
+  final String expectedAmountCurrency;
+
+  /// Stores `SubscriptionFrequency.name` as plain text.
+  final String frequency;
+
+  /// Stores `SubscriptionStatus.name` as plain text.
+  final String status;
+  final DateTime? nextExpectedDate;
+  final String? category;
+  final String? notes;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const SubscriptionRow(
+      {required this.id,
+      required this.merchant,
+      required this.expectedAmountMinorUnits,
+      required this.expectedAmountCurrency,
+      required this.frequency,
+      required this.status,
+      this.nextExpectedDate,
+      this.category,
+      this.notes,
+      required this.createdAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['merchant'] = Variable<String>(merchant);
+    map['expected_amount_minor_units'] =
+        Variable<int>(expectedAmountMinorUnits);
+    map['expected_amount_currency'] = Variable<String>(expectedAmountCurrency);
+    map['frequency'] = Variable<String>(frequency);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || nextExpectedDate != null) {
+      map['next_expected_date'] = Variable<DateTime>(nextExpectedDate);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  SubscriptionsCompanion toCompanion(bool nullToAbsent) {
+    return SubscriptionsCompanion(
+      id: Value(id),
+      merchant: Value(merchant),
+      expectedAmountMinorUnits: Value(expectedAmountMinorUnits),
+      expectedAmountCurrency: Value(expectedAmountCurrency),
+      frequency: Value(frequency),
+      status: Value(status),
+      nextExpectedDate: nextExpectedDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextExpectedDate),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory SubscriptionRow.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SubscriptionRow(
+      id: serializer.fromJson<String>(json['id']),
+      merchant: serializer.fromJson<String>(json['merchant']),
+      expectedAmountMinorUnits:
+          serializer.fromJson<int>(json['expectedAmountMinorUnits']),
+      expectedAmountCurrency:
+          serializer.fromJson<String>(json['expectedAmountCurrency']),
+      frequency: serializer.fromJson<String>(json['frequency']),
+      status: serializer.fromJson<String>(json['status']),
+      nextExpectedDate:
+          serializer.fromJson<DateTime?>(json['nextExpectedDate']),
+      category: serializer.fromJson<String?>(json['category']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'merchant': serializer.toJson<String>(merchant),
+      'expectedAmountMinorUnits':
+          serializer.toJson<int>(expectedAmountMinorUnits),
+      'expectedAmountCurrency':
+          serializer.toJson<String>(expectedAmountCurrency),
+      'frequency': serializer.toJson<String>(frequency),
+      'status': serializer.toJson<String>(status),
+      'nextExpectedDate': serializer.toJson<DateTime?>(nextExpectedDate),
+      'category': serializer.toJson<String?>(category),
+      'notes': serializer.toJson<String?>(notes),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  SubscriptionRow copyWith(
+          {String? id,
+          String? merchant,
+          int? expectedAmountMinorUnits,
+          String? expectedAmountCurrency,
+          String? frequency,
+          String? status,
+          Value<DateTime?> nextExpectedDate = const Value.absent(),
+          Value<String?> category = const Value.absent(),
+          Value<String?> notes = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      SubscriptionRow(
+        id: id ?? this.id,
+        merchant: merchant ?? this.merchant,
+        expectedAmountMinorUnits:
+            expectedAmountMinorUnits ?? this.expectedAmountMinorUnits,
+        expectedAmountCurrency:
+            expectedAmountCurrency ?? this.expectedAmountCurrency,
+        frequency: frequency ?? this.frequency,
+        status: status ?? this.status,
+        nextExpectedDate: nextExpectedDate.present
+            ? nextExpectedDate.value
+            : this.nextExpectedDate,
+        category: category.present ? category.value : this.category,
+        notes: notes.present ? notes.value : this.notes,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  SubscriptionRow copyWithCompanion(SubscriptionsCompanion data) {
+    return SubscriptionRow(
+      id: data.id.present ? data.id.value : this.id,
+      merchant: data.merchant.present ? data.merchant.value : this.merchant,
+      expectedAmountMinorUnits: data.expectedAmountMinorUnits.present
+          ? data.expectedAmountMinorUnits.value
+          : this.expectedAmountMinorUnits,
+      expectedAmountCurrency: data.expectedAmountCurrency.present
+          ? data.expectedAmountCurrency.value
+          : this.expectedAmountCurrency,
+      frequency: data.frequency.present ? data.frequency.value : this.frequency,
+      status: data.status.present ? data.status.value : this.status,
+      nextExpectedDate: data.nextExpectedDate.present
+          ? data.nextExpectedDate.value
+          : this.nextExpectedDate,
+      category: data.category.present ? data.category.value : this.category,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SubscriptionRow(')
+          ..write('id: $id, ')
+          ..write('merchant: $merchant, ')
+          ..write('expectedAmountMinorUnits: $expectedAmountMinorUnits, ')
+          ..write('expectedAmountCurrency: $expectedAmountCurrency, ')
+          ..write('frequency: $frequency, ')
+          ..write('status: $status, ')
+          ..write('nextExpectedDate: $nextExpectedDate, ')
+          ..write('category: $category, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      merchant,
+      expectedAmountMinorUnits,
+      expectedAmountCurrency,
+      frequency,
+      status,
+      nextExpectedDate,
+      category,
+      notes,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SubscriptionRow &&
+          other.id == this.id &&
+          other.merchant == this.merchant &&
+          other.expectedAmountMinorUnits == this.expectedAmountMinorUnits &&
+          other.expectedAmountCurrency == this.expectedAmountCurrency &&
+          other.frequency == this.frequency &&
+          other.status == this.status &&
+          other.nextExpectedDate == this.nextExpectedDate &&
+          other.category == this.category &&
+          other.notes == this.notes &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class SubscriptionsCompanion extends UpdateCompanion<SubscriptionRow> {
+  final Value<String> id;
+  final Value<String> merchant;
+  final Value<int> expectedAmountMinorUnits;
+  final Value<String> expectedAmountCurrency;
+  final Value<String> frequency;
+  final Value<String> status;
+  final Value<DateTime?> nextExpectedDate;
+  final Value<String?> category;
+  final Value<String?> notes;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const SubscriptionsCompanion({
+    this.id = const Value.absent(),
+    this.merchant = const Value.absent(),
+    this.expectedAmountMinorUnits = const Value.absent(),
+    this.expectedAmountCurrency = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.status = const Value.absent(),
+    this.nextExpectedDate = const Value.absent(),
+    this.category = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SubscriptionsCompanion.insert({
+    required String id,
+    required String merchant,
+    required int expectedAmountMinorUnits,
+    this.expectedAmountCurrency = const Value.absent(),
+    required String frequency,
+    required String status,
+    this.nextExpectedDate = const Value.absent(),
+    this.category = const Value.absent(),
+    this.notes = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        merchant = Value(merchant),
+        expectedAmountMinorUnits = Value(expectedAmountMinorUnits),
+        frequency = Value(frequency),
+        status = Value(status),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
+  static Insertable<SubscriptionRow> custom({
+    Expression<String>? id,
+    Expression<String>? merchant,
+    Expression<int>? expectedAmountMinorUnits,
+    Expression<String>? expectedAmountCurrency,
+    Expression<String>? frequency,
+    Expression<String>? status,
+    Expression<DateTime>? nextExpectedDate,
+    Expression<String>? category,
+    Expression<String>? notes,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (merchant != null) 'merchant': merchant,
+      if (expectedAmountMinorUnits != null)
+        'expected_amount_minor_units': expectedAmountMinorUnits,
+      if (expectedAmountCurrency != null)
+        'expected_amount_currency': expectedAmountCurrency,
+      if (frequency != null) 'frequency': frequency,
+      if (status != null) 'status': status,
+      if (nextExpectedDate != null) 'next_expected_date': nextExpectedDate,
+      if (category != null) 'category': category,
+      if (notes != null) 'notes': notes,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SubscriptionsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? merchant,
+      Value<int>? expectedAmountMinorUnits,
+      Value<String>? expectedAmountCurrency,
+      Value<String>? frequency,
+      Value<String>? status,
+      Value<DateTime?>? nextExpectedDate,
+      Value<String?>? category,
+      Value<String?>? notes,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
+    return SubscriptionsCompanion(
+      id: id ?? this.id,
+      merchant: merchant ?? this.merchant,
+      expectedAmountMinorUnits:
+          expectedAmountMinorUnits ?? this.expectedAmountMinorUnits,
+      expectedAmountCurrency:
+          expectedAmountCurrency ?? this.expectedAmountCurrency,
+      frequency: frequency ?? this.frequency,
+      status: status ?? this.status,
+      nextExpectedDate: nextExpectedDate ?? this.nextExpectedDate,
+      category: category ?? this.category,
+      notes: notes ?? this.notes,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (merchant.present) {
+      map['merchant'] = Variable<String>(merchant.value);
+    }
+    if (expectedAmountMinorUnits.present) {
+      map['expected_amount_minor_units'] =
+          Variable<int>(expectedAmountMinorUnits.value);
+    }
+    if (expectedAmountCurrency.present) {
+      map['expected_amount_currency'] =
+          Variable<String>(expectedAmountCurrency.value);
+    }
+    if (frequency.present) {
+      map['frequency'] = Variable<String>(frequency.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (nextExpectedDate.present) {
+      map['next_expected_date'] = Variable<DateTime>(nextExpectedDate.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SubscriptionsCompanion(')
+          ..write('id: $id, ')
+          ..write('merchant: $merchant, ')
+          ..write('expectedAmountMinorUnits: $expectedAmountMinorUnits, ')
+          ..write('expectedAmountCurrency: $expectedAmountCurrency, ')
+          ..write('frequency: $frequency, ')
+          ..write('status: $status, ')
+          ..write('nextExpectedDate: $nextExpectedDate, ')
+          ..write('category: $category, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2741,18 +3328,27 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TransactionsTable transactions = $TransactionsTable(this);
   late final $DreamsTable dreams = $DreamsTable(this);
   late final $DreamMovementsTable dreamMovements = $DreamMovementsTable(this);
+  late final $SubscriptionsTable subscriptions = $SubscriptionsTable(this);
   late final AccountDao accountDao = AccountDao(this as AppDatabase);
   late final FinancialCycleDao financialCycleDao =
       FinancialCycleDao(this as AppDatabase);
   late final TransactionDao transactionDao =
       TransactionDao(this as AppDatabase);
   late final DreamDao dreamDao = DreamDao(this as AppDatabase);
+  late final SubscriptionDao subscriptionDao =
+      SubscriptionDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [accounts, financialCycles, transactions, dreams, dreamMovements];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        accounts,
+        financialCycles,
+        transactions,
+        dreams,
+        dreamMovements,
+        subscriptions
+      ];
 }
 
 typedef $$AccountsTableCreateCompanionBuilder = AccountsCompanion Function({
@@ -4013,6 +4609,275 @@ typedef $$DreamMovementsTableProcessedTableManager = ProcessedTableManager<
     ),
     DreamMovementRow,
     PrefetchHooks Function()>;
+typedef $$SubscriptionsTableCreateCompanionBuilder = SubscriptionsCompanion
+    Function({
+  required String id,
+  required String merchant,
+  required int expectedAmountMinorUnits,
+  Value<String> expectedAmountCurrency,
+  required String frequency,
+  required String status,
+  Value<DateTime?> nextExpectedDate,
+  Value<String?> category,
+  Value<String?> notes,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<int> rowid,
+});
+typedef $$SubscriptionsTableUpdateCompanionBuilder = SubscriptionsCompanion
+    Function({
+  Value<String> id,
+  Value<String> merchant,
+  Value<int> expectedAmountMinorUnits,
+  Value<String> expectedAmountCurrency,
+  Value<String> frequency,
+  Value<String> status,
+  Value<DateTime?> nextExpectedDate,
+  Value<String?> category,
+  Value<String?> notes,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<int> rowid,
+});
+
+class $$SubscriptionsTableFilterComposer
+    extends Composer<_$AppDatabase, $SubscriptionsTable> {
+  $$SubscriptionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get merchant => $composableBuilder(
+      column: $table.merchant, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get expectedAmountMinorUnits => $composableBuilder(
+      column: $table.expectedAmountMinorUnits,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get expectedAmountCurrency => $composableBuilder(
+      column: $table.expectedAmountCurrency,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get nextExpectedDate => $composableBuilder(
+      column: $table.nextExpectedDate,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$SubscriptionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SubscriptionsTable> {
+  $$SubscriptionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get merchant => $composableBuilder(
+      column: $table.merchant, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get expectedAmountMinorUnits => $composableBuilder(
+      column: $table.expectedAmountMinorUnits,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get expectedAmountCurrency => $composableBuilder(
+      column: $table.expectedAmountCurrency,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get nextExpectedDate => $composableBuilder(
+      column: $table.nextExpectedDate,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$SubscriptionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SubscriptionsTable> {
+  $$SubscriptionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get merchant =>
+      $composableBuilder(column: $table.merchant, builder: (column) => column);
+
+  GeneratedColumn<int> get expectedAmountMinorUnits => $composableBuilder(
+      column: $table.expectedAmountMinorUnits, builder: (column) => column);
+
+  GeneratedColumn<String> get expectedAmountCurrency => $composableBuilder(
+      column: $table.expectedAmountCurrency, builder: (column) => column);
+
+  GeneratedColumn<String> get frequency =>
+      $composableBuilder(column: $table.frequency, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get nextExpectedDate => $composableBuilder(
+      column: $table.nextExpectedDate, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$SubscriptionsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $SubscriptionsTable,
+    SubscriptionRow,
+    $$SubscriptionsTableFilterComposer,
+    $$SubscriptionsTableOrderingComposer,
+    $$SubscriptionsTableAnnotationComposer,
+    $$SubscriptionsTableCreateCompanionBuilder,
+    $$SubscriptionsTableUpdateCompanionBuilder,
+    (
+      SubscriptionRow,
+      BaseReferences<_$AppDatabase, $SubscriptionsTable, SubscriptionRow>
+    ),
+    SubscriptionRow,
+    PrefetchHooks Function()> {
+  $$SubscriptionsTableTableManager(_$AppDatabase db, $SubscriptionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SubscriptionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SubscriptionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SubscriptionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> merchant = const Value.absent(),
+            Value<int> expectedAmountMinorUnits = const Value.absent(),
+            Value<String> expectedAmountCurrency = const Value.absent(),
+            Value<String> frequency = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<DateTime?> nextExpectedDate = const Value.absent(),
+            Value<String?> category = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SubscriptionsCompanion(
+            id: id,
+            merchant: merchant,
+            expectedAmountMinorUnits: expectedAmountMinorUnits,
+            expectedAmountCurrency: expectedAmountCurrency,
+            frequency: frequency,
+            status: status,
+            nextExpectedDate: nextExpectedDate,
+            category: category,
+            notes: notes,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String merchant,
+            required int expectedAmountMinorUnits,
+            Value<String> expectedAmountCurrency = const Value.absent(),
+            required String frequency,
+            required String status,
+            Value<DateTime?> nextExpectedDate = const Value.absent(),
+            Value<String?> category = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SubscriptionsCompanion.insert(
+            id: id,
+            merchant: merchant,
+            expectedAmountMinorUnits: expectedAmountMinorUnits,
+            expectedAmountCurrency: expectedAmountCurrency,
+            frequency: frequency,
+            status: status,
+            nextExpectedDate: nextExpectedDate,
+            category: category,
+            notes: notes,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$SubscriptionsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $SubscriptionsTable,
+    SubscriptionRow,
+    $$SubscriptionsTableFilterComposer,
+    $$SubscriptionsTableOrderingComposer,
+    $$SubscriptionsTableAnnotationComposer,
+    $$SubscriptionsTableCreateCompanionBuilder,
+    $$SubscriptionsTableUpdateCompanionBuilder,
+    (
+      SubscriptionRow,
+      BaseReferences<_$AppDatabase, $SubscriptionsTable, SubscriptionRow>
+    ),
+    SubscriptionRow,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4027,4 +4892,6 @@ class $AppDatabaseManager {
       $$DreamsTableTableManager(_db, _db.dreams);
   $$DreamMovementsTableTableManager get dreamMovements =>
       $$DreamMovementsTableTableManager(_db, _db.dreamMovements);
+  $$SubscriptionsTableTableManager get subscriptions =>
+      $$SubscriptionsTableTableManager(_db, _db.subscriptions);
 }

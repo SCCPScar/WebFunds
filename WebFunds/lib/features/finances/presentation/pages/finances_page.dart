@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../../../design_system/icons/app_icons.dart';
 import '../../../../design_system/spacing/app_spacing.dart';
+import '../../../../router/app_routes.dart';
 import '../../../../services/logging/app_logger.dart';
 import '../../../../shared/widgets/app_empty_state.dart';
 import '../../../../shared/widgets/app_error_view.dart';
@@ -186,7 +188,16 @@ class FinancesPage extends ConsumerWidget {
     final cycleAsync = ref.watch(activeFinancialCycleStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Finanças')),
+      appBar: AppBar(
+        title: const Text('Finanças'),
+        actions: [
+          IconButton(
+            icon: const Icon(AppIcons.subscriptions),
+            tooltip: 'Subscrições',
+            onPressed: () => context.push(AppRoutes.subscriptions),
+          ),
+        ],
+      ),
       body: cycleAsync.when(
         loading: () => const AppLoadingIndicator(message: 'A carregar o ciclo financeiro...'),
         error: (error, stackTrace) {

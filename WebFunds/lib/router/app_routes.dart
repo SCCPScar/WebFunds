@@ -17,6 +17,9 @@ class AppRoutes {
   static const String dreams = '/dreams';
   static const String dreamsName = 'dreams';
 
+  static const String subscriptions = '/subscriptions';
+  static const String subscriptionsName = 'subscriptions';
+
   // The 5 documented sections, each an independent branch of the Shell's
   // StatefulShellRoute.
   static const String central = '/central';

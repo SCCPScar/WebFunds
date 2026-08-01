@@ -40,4 +40,7 @@ class AppIcons {
   // --- Dreams ---
   static const IconData dreams = BootstrapIcons.rocket_takeoff_fill;
   static const IconData dreamWithdraw = BootstrapIcons.dash_circle;
+
+  // --- Subscriptions ---
+  static const IconData subscriptions = BootstrapIcons.arrow_repeat;
 }

@@ -4,20 +4,22 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'daos/account_dao.dart';
 import 'daos/dream_dao.dart';
 import 'daos/financial_cycle_dao.dart';
+import 'daos/subscription_dao.dart';
 import 'daos/transaction_dao.dart';
 import 'local_database_service.dart';
 import 'tables/accounts_table.dart';
 import 'tables/dream_movements_table.dart';
 import 'tables/dreams_table.dart';
 import 'tables/financial_cycles_table.dart';
+import 'tables/subscriptions_table.dart';
 import 'tables/transactions_table.dart';
 
 part 'app_database.g.dart';
 
 /// WebFunds' local database. Implements `LocalDatabaseService`.
 @DriftDatabase(
-  tables: [Accounts, FinancialCycles, Transactions, Dreams, DreamMovements],
-  daos: [AccountDao, FinancialCycleDao, TransactionDao, DreamDao],
+  tables: [Accounts, FinancialCycles, Transactions, Dreams, DreamMovements, Subscriptions],
+  daos: [AccountDao, FinancialCycleDao, TransactionDao, DreamDao, SubscriptionDao],
 )
 class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase() : super(_openConnection());
@@ -26,7 +28,7 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -41,6 +43,9 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
       if (from < 4) {
         await m.createTable(dreams);
         await m.createTable(dreamMovements);
+      }
+      if (from < 5) {
+        await m.createTable(subscriptions);
       }
     },
   );
