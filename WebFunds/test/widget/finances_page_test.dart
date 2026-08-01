@@ -81,4 +81,40 @@ void main() {
 
     await disposeCleanly(tester);
   });
+
+  testWidgets('adding a memory to a transaction saves it', (tester) async {
+    await pumpPage(tester);
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Iniciar ciclo').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Iniciar ciclo').last);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Adicionar transação'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.widgetWithText(TextFormField, 'Valor'), '50');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Merchant (opcional)'),
+      'Continente',
+    );
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Adicionar transação'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Continente'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(TextButton, 'Adicionar memória'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Título (opcional)'),
+      'Compras da semana',
+    );
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Guardar memória'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Memória'), findsNothing);
+
+    await disposeCleanly(tester);
+  });
 }

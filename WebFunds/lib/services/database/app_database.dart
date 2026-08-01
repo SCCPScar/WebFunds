@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'daos/account_dao.dart';
 import 'daos/dream_dao.dart';
 import 'daos/financial_cycle_dao.dart';
+import 'daos/memory_dao.dart';
 import 'daos/mystery_dao.dart';
 import 'daos/subscription_dao.dart';
 import 'daos/transaction_dao.dart';
@@ -12,6 +13,7 @@ import 'tables/accounts_table.dart';
 import 'tables/dream_movements_table.dart';
 import 'tables/dreams_table.dart';
 import 'tables/financial_cycles_table.dart';
+import 'tables/memories_table.dart';
 import 'tables/mysteries_table.dart';
 import 'tables/subscriptions_table.dart';
 import 'tables/transactions_table.dart';
@@ -28,8 +30,17 @@ part 'app_database.g.dart';
     DreamMovements,
     Subscriptions,
     Mysteries,
+    Memories,
   ],
-  daos: [AccountDao, FinancialCycleDao, TransactionDao, DreamDao, SubscriptionDao, MysteryDao],
+  daos: [
+    AccountDao,
+    FinancialCycleDao,
+    TransactionDao,
+    DreamDao,
+    SubscriptionDao,
+    MysteryDao,
+    MemoryDao,
+  ],
 )
 class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase() : super(_openConnection());
@@ -38,7 +49,7 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -59,6 +70,9 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
       }
       if (from < 6) {
         await m.createTable(mysteries);
+      }
+      if (from < 7) {
+        await m.createTable(memories);
       }
     },
   );

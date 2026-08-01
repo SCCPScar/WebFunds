@@ -17,6 +17,9 @@ import '../../../financial_cycles/domain/entities/financial_cycle.dart';
 import '../../../financial_cycles/presentation/controllers/financial_cycle_providers.dart';
 import '../../../financial_cycles/presentation/controllers/start_financial_cycle_controller.dart';
 import '../../../financial_cycles/presentation/widgets/start_financial_cycle_form.dart';
+import '../../../memories/application/usecases/upsert_memory_usecase.dart';
+import '../../../memories/presentation/controllers/memory_providers.dart';
+import '../../../memories/presentation/widgets/memory_form.dart';
 import '../../../mysteries/application/usecases/create_manual_mystery_usecase.dart';
 import '../../../mysteries/presentation/controllers/mystery_providers.dart';
 import '../../../transactions/application/usecases/update_transaction_merchant_category_usecase.dart';
@@ -198,7 +201,62 @@ class FinancesPage extends ConsumerWidget {
                 },
                 child: const Text('Marcar como mistério'),
               ),
+              const SizedBox(height: AppSpacing.sm),
+              TextButton(
+                onPressed: () => _openMemoryForm(context, ref, transaction),
+                child: const Text('Adicionar memória'),
+              ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openMemoryForm(BuildContext context, WidgetRef ref, Transaction transaction) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: AppSpacing.xl,
+            right: AppSpacing.xl,
+            top: AppSpacing.xl,
+            bottom: MediaQuery.of(sheetContext).viewInsets.bottom + AppSpacing.xl,
+          ),
+          child: Consumer(
+            builder: (context, ref, _) {
+              final memoryAsync = ref.watch(memoryByTransactionStreamProvider(transaction.id));
+              return memoryAsync.when(
+                loading: () => const AppLoadingIndicator(),
+                error: (error, stackTrace) => const Text('Não foi possível carregar a memória.'),
+                data: (result) => result.fold(
+                  onSuccess: (memory) => MemoryForm(
+                    existing: memory,
+                    isLoading: false,
+                    onSubmit: (title, narrative, mood, tags) async {
+                      final saveResult = await ref.read(upsertMemoryUseCaseProvider).call(
+                            UpsertMemoryParams(
+                              transactionId: transaction.id,
+                              title: title,
+                              narrative: narrative,
+                              mood: mood,
+                              tags: tags,
+                            ),
+                          );
+                      if (!sheetContext.mounted) return;
+                      saveResult.fold(
+                        onSuccess: (_) => Navigator.of(sheetContext).pop(),
+                        onError: (failure) => ScaffoldMessenger.of(sheetContext)
+                            .showSnackBar(SnackBar(content: Text(failure.message))),
+                      );
+                    },
+                  ),
+                  onError: (failure) => Text(failure.message),
+                ),
+              );
+            },
           ),
         );
       },

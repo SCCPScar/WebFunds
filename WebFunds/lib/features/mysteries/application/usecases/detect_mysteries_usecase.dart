@@ -27,7 +27,7 @@ class DetectMysteriesUseCase {
 
     final existingResult = await _mysteryRepository.getAll();
     final transactionsWithMystery = {
-      for (final m in existingResult.dataOrNull ?? const []) m.transactionId,
+      for (final m in existingResult.dataOrNull ?? const <Mystery>[]) m.transactionId,
     };
 
     final created = <Mystery>[];
