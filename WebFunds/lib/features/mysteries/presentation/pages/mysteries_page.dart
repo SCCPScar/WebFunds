@@ -25,7 +25,8 @@ import '../utils/mystery_reason_presentation.dart';
 class MysteriesPage extends ConsumerWidget {
   const MysteriesPage({super.key});
 
-  void _openResolveSheet(BuildContext context, WidgetRef ref, Mystery mystery, Transaction transaction) {
+  void _openResolveSheet(
+      BuildContext context, WidgetRef ref, Mystery mystery, Transaction transaction) {
     final merchantController = TextEditingController(text: transaction.merchant);
     final categoryController = TextEditingController(text: transaction.category);
     final notesController = TextEditingController(text: mystery.notes);
@@ -109,63 +110,62 @@ class MysteriesPage extends ConsumerWidget {
     ref.watch(mysteryDetectionProvider);
     final mysteriesAsync = ref.watch(mysteriesStreamProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Mistérios')),
-      body: mysteriesAsync.when(
-        loading: () => const AppLoadingIndicator(message: 'A procurar mistérios...'),
-        error: (error, stackTrace) => AppErrorView(
-          failure: const UnknownFailure(),
-          onRetry: () => ref.invalidate(mysteriesStreamProvider),
-        ),
-        data: (result) => result.fold(
-          onSuccess: (mysteries) {
-            final open = mysteries.where((m) => m.status == MysteryStatus.open).toList();
-            final resolved = mysteries.where((m) => m.status == MysteryStatus.resolved).toList();
+    // No Scaffold/AppBar here — this page is a shell branch, and
+    // `AppShell` already provides both (see `FinancesPage`'s reasoning).
+    return mysteriesAsync.when(
+      loading: () => const AppLoadingIndicator(message: 'A procurar mistérios...'),
+      error: (error, stackTrace) => AppErrorView(
+        failure: const UnknownFailure(),
+        onRetry: () => ref.invalidate(mysteriesStreamProvider),
+      ),
+      data: (result) => result.fold(
+        onSuccess: (mysteries) {
+          final open = mysteries.where((m) => m.status == MysteryStatus.open).toList();
+          final resolved = mysteries.where((m) => m.status == MysteryStatus.resolved).toList();
 
-            if (open.isEmpty && resolved.isEmpty) {
-              return const AppEmptyState(
-                icon: AppIcons.mysteries,
-                message: 'Ótimo! Todas as transações foram revistas.',
-              );
-            }
-
-            return ListView(
-              padding: const EdgeInsets.all(AppSpacing.xl),
-              children: [
-                Text(
-                  '${open.length} ${open.length == 1 ? 'mistério ativo' : 'mistérios ativos'}',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                if (open.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
-                    child: Text('Sem mistérios por resolver.'),
-                  )
-                else
-                  for (final mystery in open)
-                    _MysteryCard(
-                      mystery: mystery,
-                      onTap: (transaction) => _openResolveSheet(context, ref, mystery, transaction),
-                      onArchive: () => _updateStatus(ref, mystery.id, MysteryStatus.archived),
-                    ),
-                if (resolved.isNotEmpty) ...[
-                  const SizedBox(height: AppSpacing.xl),
-                  Text('Resolvidos', style: Theme.of(context).textTheme.titleMedium),
-                  const SizedBox(height: AppSpacing.sm),
-                  for (final mystery in resolved)
-                    _ResolvedMysteryTile(
-                      mystery: mystery,
-                      onReopen: () => _updateStatus(ref, mystery.id, MysteryStatus.open),
-                    ),
-                ],
-              ],
+          if (open.isEmpty && resolved.isEmpty) {
+            return const AppEmptyState(
+              icon: AppIcons.mysteries,
+              message: 'Ótimo! Todas as transações foram revistas.',
             );
-          },
-          onError: (failure) => AppErrorView(
-            failure: failure,
-            onRetry: () => ref.invalidate(mysteriesStreamProvider),
-          ),
+          }
+
+          return ListView(
+            padding: const EdgeInsets.all(AppSpacing.xl),
+            children: [
+              Text(
+                '${open.length} ${open.length == 1 ? 'mistério ativo' : 'mistérios ativos'}',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              if (open.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+                  child: Text('Sem mistérios por resolver.'),
+                )
+              else
+                for (final mystery in open)
+                  _MysteryCard(
+                    mystery: mystery,
+                    onTap: (transaction) => _openResolveSheet(context, ref, mystery, transaction),
+                    onArchive: () => _updateStatus(ref, mystery.id, MysteryStatus.archived),
+                  ),
+              if (resolved.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.xl),
+                Text('Resolvidos', style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: AppSpacing.sm),
+                for (final mystery in resolved)
+                  _ResolvedMysteryTile(
+                    mystery: mystery,
+                    onReopen: () => _updateStatus(ref, mystery.id, MysteryStatus.open),
+                  ),
+              ],
+            ],
+          );
+        },
+        onError: (failure) => AppErrorView(
+          failure: failure,
+          onRetry: () => ref.invalidate(mysteriesStreamProvider),
         ),
       ),
     );

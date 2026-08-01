@@ -13,7 +13,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [appDatabaseProvider.overrideWithValue(database)],
-        child: const MaterialApp(home: MysteriesPage()),
+        // `MysteriesPage` has no Scaffold of its own — it's a shell
+        // branch, and `AppShell` supplies one in the real app. Wrapping
+        // it here mirrors that, since a bare `ListTile` needs a
+        // `Material` ancestor that only `Scaffold` (or `AppShell`) gives it.
+        child: const MaterialApp(home: Scaffold(body: MysteriesPage())),
       ),
     );
     await tester.pumpAndSettle();

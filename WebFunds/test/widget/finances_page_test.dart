@@ -13,7 +13,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [appDatabaseProvider.overrideWithValue(database)],
-        child: const MaterialApp(home: FinancesPage()),
+        // `FinancesPage` has no Scaffold of its own — it's a shell
+        // branch, and `AppShell` supplies one in the real app.
+        child: const MaterialApp(home: Scaffold(body: FinancesPage())),
       ),
     );
     await tester.pumpAndSettle();

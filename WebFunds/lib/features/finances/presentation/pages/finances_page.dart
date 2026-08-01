@@ -267,54 +267,67 @@ class FinancesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cycleAsync = ref.watch(activeFinancialCycleStreamProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Finanças'),
-        actions: [
-          IconButton(
-            icon: const Icon(AppIcons.subscriptions),
-            tooltip: 'Subscrições',
-            onPressed: () => context.push(AppRoutes.subscriptions),
-          ),
-        ],
-      ),
-      body: cycleAsync.when(
-        loading: () => const AppLoadingIndicator(message: 'A carregar o ciclo financeiro...'),
-        error: (error, stackTrace) {
-          ref.read(appLoggerProvider).error(
-            'Falha inesperada ao carregar o ciclo financeiro.',
-            tag: 'FinancesPage',
-            error: error,
-            stackTrace: stackTrace,
-          );
-          return AppErrorView(
-            failure: const UnknownFailure(),
-            onRetry: () => ref.invalidate(activeFinancialCycleStreamProvider),
-          );
-        },
-        data: (result) => result.fold(
-          onSuccess: (cycle) => cycle == null
-              ? AppEmptyState(
-                  icon: AppIcons.finances,
-                  message:
-                      'Precisas de um ciclo financeiro ativo para veres e adicionares transações.',
-                  action: ElevatedButton(
-                    onPressed: () => _openStartCycleForm(context, ref),
-                    child: const Text('Iniciar ciclo'),
-                  ),
-                )
-              : _CycleTransactions(
-                  cycle: cycle,
-                  onAddTransaction: (accounts) =>
-                      _openCreateTransactionForm(context, ref, cycle, accounts),
-                  onEditTransaction: (transaction) => _openEditForm(context, ref, transaction),
-                ),
-          onError: (failure) => AppErrorView(
-            failure: failure,
-            onRetry: () => ref.invalidate(activeFinancialCycleStreamProvider),
+    // No Scaffold/AppBar here — this page is a shell branch, and
+    // `AppShell` already provides both (see its own doc comment).
+    // `_CycleTransactions` below supplies the only Scaffold in this
+    // subtree, purely to host its FloatingActionButton.
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text('Finanças', style: Theme.of(context).textTheme.headlineSmall),
+              ),
+              IconButton(
+                icon: const Icon(AppIcons.subscriptions),
+                tooltip: 'Subscrições',
+                onPressed: () => context.push(AppRoutes.subscriptions),
+              ),
+            ],
           ),
         ),
-      ),
+        Expanded(
+          child: cycleAsync.when(
+            loading: () => const AppLoadingIndicator(message: 'A carregar o ciclo financeiro...'),
+            error: (error, stackTrace) {
+              ref.read(appLoggerProvider).error(
+                    'Falha inesperada ao carregar o ciclo financeiro.',
+                    tag: 'FinancesPage',
+                    error: error,
+                    stackTrace: stackTrace,
+                  );
+              return AppErrorView(
+                failure: const UnknownFailure(),
+                onRetry: () => ref.invalidate(activeFinancialCycleStreamProvider),
+              );
+            },
+            data: (result) => result.fold(
+              onSuccess: (cycle) => cycle == null
+                  ? AppEmptyState(
+                      icon: AppIcons.finances,
+                      message: 'Precisas de um ciclo financeiro ativo para veres e adicionares '
+                          'transações.',
+                      action: ElevatedButton(
+                        onPressed: () => _openStartCycleForm(context, ref),
+                        child: const Text('Iniciar ciclo'),
+                      ),
+                    )
+                  : _CycleTransactions(
+                      cycle: cycle,
+                      onAddTransaction: (accounts) =>
+                          _openCreateTransactionForm(context, ref, cycle, accounts),
+                      onEditTransaction: (transaction) => _openEditForm(context, ref, transaction),
+                    ),
+              onError: (failure) => AppErrorView(
+                failure: failure,
+                onRetry: () => ref.invalidate(activeFinancialCycleStreamProvider),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -346,11 +359,11 @@ class _CycleTransactions extends ConsumerWidget {
         loading: () => const AppLoadingIndicator(message: 'A carregar transações...'),
         error: (error, stackTrace) {
           ref.read(appLoggerProvider).error(
-            'Falha inesperada ao carregar as transações.',
-            tag: 'FinancesPage',
-            error: error,
-            stackTrace: stackTrace,
-          );
+                'Falha inesperada ao carregar as transações.',
+                tag: 'FinancesPage',
+                error: error,
+                stackTrace: stackTrace,
+              );
           return AppErrorView(
             failure: const UnknownFailure(),
             onRetry: () => ref.invalidate(transactionsByCycleStreamProvider(cycle.id)),
