@@ -9,6 +9,10 @@ abstract class DreamRepository {
   /// Every Dream that isn't archived or cancelled, updating automatically.
   Stream<Result<List<Dream>>> watchActive();
 
+  /// One-shot equivalent of `watchActive` — used by detection, which
+  /// needs a snapshot rather than a live subscription.
+  Future<Result<List<Dream>>> getActive();
+
   Future<Result<Dream?>> getById(String id);
 
   /// Live view of one Dream — what `_DreamDetailSheet` watches so the

@@ -29,21 +29,33 @@ class DriftDreamRepository implements DreamRepository {
   @override
   Stream<Result<List<Dream>>> watchActive() {
     return _dao.watchActive().transform(
-      StreamTransformer<List<DreamRow>, Result<List<Dream>>>.fromHandlers(
-        handleData: (rows, sink) {
-          sink.add(Success(rows.map(DreamMapper.toDomain).toList()));
-        },
-        handleError: (error, stackTrace, sink) {
-          sink.add(
-            ResultError(
-              mapExceptionToFailure(
-                CacheException('Não foi possível observar os objetivos.', cause: error),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+          StreamTransformer<List<DreamRow>, Result<List<Dream>>>.fromHandlers(
+            handleData: (rows, sink) {
+              sink.add(Success(rows.map(DreamMapper.toDomain).toList()));
+            },
+            handleError: (error, stackTrace, sink) {
+              sink.add(
+                ResultError(
+                  mapExceptionToFailure(
+                    CacheException('Não foi possível observar os objetivos.', cause: error),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+  }
+
+  @override
+  Future<Result<List<Dream>>> getActive() async {
+    try {
+      final rows = await _dao.getActive();
+      return Success(rows.map(DreamMapper.toDomain).toList());
+    } on Exception catch (e) {
+      return ResultError(
+        mapExceptionToFailure(CacheException('Não foi possível carregar os objetivos.', cause: e)),
+      );
+    }
   }
 
   @override
@@ -61,41 +73,41 @@ class DriftDreamRepository implements DreamRepository {
   @override
   Stream<Result<Dream?>> watchById(String id) {
     return _dao.watchById(id).transform(
-      StreamTransformer<DreamRow?, Result<Dream?>>.fromHandlers(
-        handleData: (row, sink) {
-          sink.add(Success(row == null ? null : DreamMapper.toDomain(row)));
-        },
-        handleError: (error, stackTrace, sink) {
-          sink.add(
-            ResultError(
-              mapExceptionToFailure(
-                CacheException('Não foi possível observar o objetivo.', cause: error),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+          StreamTransformer<DreamRow?, Result<Dream?>>.fromHandlers(
+            handleData: (row, sink) {
+              sink.add(Success(row == null ? null : DreamMapper.toDomain(row)));
+            },
+            handleError: (error, stackTrace, sink) {
+              sink.add(
+                ResultError(
+                  mapExceptionToFailure(
+                    CacheException('Não foi possível observar o objetivo.', cause: error),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
   }
 
   @override
   Stream<Result<List<DreamMovement>>> watchMovements(String dreamId) {
     return _dao.watchMovements(dreamId).transform(
-      StreamTransformer<List<DreamMovementRow>, Result<List<DreamMovement>>>.fromHandlers(
-        handleData: (rows, sink) {
-          sink.add(Success(rows.map(DreamMapper.movementToDomain).toList()));
-        },
-        handleError: (error, stackTrace, sink) {
-          sink.add(
-            ResultError(
-              mapExceptionToFailure(
-                CacheException('Não foi possível observar as contribuições.', cause: error),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+          StreamTransformer<List<DreamMovementRow>, Result<List<DreamMovement>>>.fromHandlers(
+            handleData: (rows, sink) {
+              sink.add(Success(rows.map(DreamMapper.movementToDomain).toList()));
+            },
+            handleError: (error, stackTrace, sink) {
+              sink.add(
+                ResultError(
+                  mapExceptionToFailure(
+                    CacheException('Não foi possível observar as contribuições.', cause: error),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
   }
 
   @override
@@ -142,8 +154,8 @@ class DriftDreamRepository implements DreamRepository {
       notes: notes,
       applyToReserved: (dream) {
         final newReserved = dream.reservedAmount + amount;
-        final completesNow =
-            dream.status == DreamStatus.active && newReserved.minorUnits >= dream.targetAmount.minorUnits;
+        final completesNow = dream.status == DreamStatus.active &&
+            newReserved.minorUnits >= dream.targetAmount.minorUnits;
         return (
           reserved: newReserved,
           status: completesNow ? DreamStatus.completed : dream.status,
@@ -177,8 +189,8 @@ class DriftDreamRepository implements DreamRepository {
       notes: notes,
       applyToReserved: (dream) {
         final newReserved = dream.reservedAmount - amount;
-        final reopens =
-            dream.status == DreamStatus.completed && newReserved.minorUnits < dream.targetAmount.minorUnits;
+        final reopens = dream.status == DreamStatus.completed &&
+            newReserved.minorUnits < dream.targetAmount.minorUnits;
         return (
           reserved: newReserved,
           status: reopens ? DreamStatus.active : dream.status,

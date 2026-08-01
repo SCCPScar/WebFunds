@@ -19,14 +19,16 @@ class _StubDreamRepository implements DreamRepository {
   Stream<Result<List<Dream>>> watchActive() => throw UnimplementedError();
 
   @override
+  Future<Result<List<Dream>>> getActive() => throw UnimplementedError();
+
+  @override
   Future<Result<Dream?>> getById(String id) => throw UnimplementedError();
 
   @override
   Stream<Result<Dream?>> watchById(String id) => throw UnimplementedError();
 
   @override
-  Stream<Result<List<DreamMovement>>> watchMovements(String dreamId) =>
-      throw UnimplementedError();
+  Stream<Result<List<DreamMovement>>> watchMovements(String dreamId) => throw UnimplementedError();
 
   @override
   Future<Result<Dream>> create({

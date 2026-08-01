@@ -37,7 +37,7 @@ class DetectNotificationsUseCase {
   Future<Result<List<AppNotification>>> call() async {
     final created = <AppNotification>[];
 
-    final dreamsResult = await _dreamRepository.watchActive().first;
+    final dreamsResult = await _dreamRepository.getActive();
     for (final dream in dreamsResult.dataOrNull ?? const <Dream>[]) {
       created.addAll(await _detectForDream(dream));
     }

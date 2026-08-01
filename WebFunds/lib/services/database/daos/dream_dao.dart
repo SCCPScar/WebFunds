@@ -13,10 +13,18 @@ class DreamDao extends DatabaseAccessor<AppDatabase> with _$DreamDaoMixin {
   DreamDao(super.db);
 
   Stream<List<DreamRow>> watchActive() {
-    return (select(dreams)
-          ..where((d) => d.status.isNotIn(const ['archived', 'cancelled']))
-          ..orderBy([(d) => OrderingTerm.desc(d.createdAt)]))
-        .watch();
+    return _activeQuery().watch();
+  }
+
+  /// One-shot equivalent of `watchActive`, for callers that need a
+  /// snapshot rather than a live subscription — e.g. detection use
+  /// cases that run once and return.
+  Future<List<DreamRow>> getActive() => _activeQuery().get();
+
+  SimpleSelectStatement<Dreams, DreamRow> _activeQuery() {
+    return select(dreams)
+      ..where((d) => d.status.isNotIn(const ['archived', 'cancelled']))
+      ..orderBy([(d) => OrderingTerm.desc(d.createdAt)]);
   }
 
   Future<DreamRow?> findById(String id) {

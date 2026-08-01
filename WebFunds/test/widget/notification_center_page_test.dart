@@ -58,7 +58,10 @@ void main() {
 
     expect(find.text('Novo mistério detetado'), findsOneWidget);
 
-    await tester.tap(find.byIcon(AppIcons.archive).hitTestable());
+    // The real system clock (not overridden here) sees `createdAt` as
+    // long past the 7-day threshold, so detection also creates the
+    // "stale" notification — hence `.first` to disambiguate.
+    await tester.tap(find.byIcon(AppIcons.archive).hitTestable().first);
     await tester.pumpAndSettle();
 
     expect(find.text('Arquivadas'), findsOneWidget);
