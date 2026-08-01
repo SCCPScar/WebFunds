@@ -37,6 +37,11 @@ class AppShell extends ConsumerWidget {
         title: Text(appShellDestinations[currentIndex].label),
         actions: [
           IconButton(
+            icon: const Icon(AppIcons.search),
+            tooltip: 'Pesquisar',
+            onPressed: () => context.push(AppRoutes.search),
+          ),
+          IconButton(
             icon: Badge(
               isLabelVisible: unreadCount > 0,
               label: Text('$unreadCount'),

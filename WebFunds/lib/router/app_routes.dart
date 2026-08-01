@@ -29,6 +29,9 @@ class AppRoutes {
   static const String notifications = '/notifications';
   static const String notificationsName = 'notifications';
 
+  static const String search = '/search';
+  static const String searchName = 'search';
+
   // The 5 documented sections, each an independent branch of the Shell's
   // StatefulShellRoute.
   static const String central = '/central';

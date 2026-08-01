@@ -48,4 +48,7 @@ class AppIcons {
   static const IconData notifications = BootstrapIcons.bell_fill;
   static const IconData dismiss = BootstrapIcons.x_circle;
   static const IconData markRead = BootstrapIcons.check2_circle;
+
+  // --- Search ---
+  static const IconData search = BootstrapIcons.search;
 }

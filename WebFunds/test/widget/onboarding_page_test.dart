@@ -59,7 +59,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          onboardingCompleteProvider.overrideWith(() => _FalseOnboardingComplete()),
+          onboardingCompleteProvider.overrideWith(_FalseOnboardingComplete.new),
           biometricPreferenceRepositoryProvider.overrideWithValue(
             _FakeBiometricPreferenceRepository(),
           ),

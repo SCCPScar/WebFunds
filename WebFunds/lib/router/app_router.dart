@@ -18,6 +18,7 @@ import '../features/notifications/presentation/pages/notification_center_page.da
 import '../features/onboarding/presentation/controllers/onboarding_providers.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
+import '../features/search/presentation/pages/search_page.dart';
 import '../features/subscriptions/presentation/pages/subscriptions_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
 import '../features/weaver/presentation/pages/weaver_page.dart';
@@ -132,6 +133,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           key: state.pageKey,
           child: const NotificationCenterPage(),
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.search,
+        name: AppRoutes.searchName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fadeThroughSlide(key: state.pageKey, child: const SearchPage()),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),
