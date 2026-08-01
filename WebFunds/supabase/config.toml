@@ -1,0 +1,9 @@
+# Only used to deploy Edge Functions in CI (`supabase functions deploy
+# --project-ref ...`) — this project doesn't run `supabase start` locally,
+# so the rest of the local-dev config (Postgres/Auth/Storage emulation)
+# is intentionally left out.
+project_id = "webfunds"
+
+[functions.weaver-suggest-category]
+enabled = true
+verify_jwt = true

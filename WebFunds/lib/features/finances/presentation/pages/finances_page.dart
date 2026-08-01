@@ -82,7 +82,7 @@ class FinancesPage extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) {
-        return Padding(
+        return SingleChildScrollView(
           padding: EdgeInsets.only(
             left: AppSpacing.xl,
             right: AppSpacing.xl,
