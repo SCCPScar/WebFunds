@@ -51,4 +51,16 @@ class AppIcons {
 
   // --- Search ---
   static const IconData search = BootstrapIcons.search;
+
+  // --- Weaver ---
+  static const IconData weaverInsight = BootstrapIcons.lightbulb_fill;
+  static const IconData weaverNetWorth = BootstrapIcons.graph_up_arrow;
+  static const IconData weaverDistribution = BootstrapIcons.pie_chart_fill;
+  static const IconData weaverDormant = BootstrapIcons.moon_stars_fill;
+  static const IconData weaverWarning = BootstrapIcons.exclamation_triangle_fill;
+  static const IconData weaverInfo = BootstrapIcons.info_circle_fill;
+  static const IconData weaverBudget = BootstrapIcons.clipboard_data_fill;
+  static const IconData weaverPlanning = BootstrapIcons.calendar_month_fill;
+  static const IconData weaverForecast = BootstrapIcons.graph_up;
+  static const IconData weaverBills = BootstrapIcons.receipt;
 }
