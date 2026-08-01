@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Política de Privacidade — WebFunds</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      line-height: 1.6;
+      color: #1a1a1a;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.15rem; margin-top: 2rem; }
+    .updated { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+    ul { padding-left: 1.25rem; }
+    li { margin-bottom: 0.4rem; }
+  </style>
+</head>
+<body>
+  <h1>Política de Privacidade — WebFunds</h1>
+  <p class="updated">Última atualização: 1 de agosto de 2026</p>
+
+  <p>
+    O WebFunds é uma aplicação pessoal de gestão financeira. Não é um produto
+    comercial nem recolhe dados para fins de negócio — existe para ajudar o
+    seu titular a organizar as suas próprias finanças.
+  </p>
+
+  <h2>Que dados são guardados</h2>
+  <p>Consoante o que usa na aplicação, podem ser guardados:</p>
+  <ul>
+    <li>Contas, ciclos financeiros, transações e objetivos de poupança que introduz manualmente;</li>
+    <li>Memórias e notas associadas a transações;</li>
+    <li>Preferências (aparência, notificações);</li>
+    <li>Se ligar uma conta bancária via Open Banking: informação de contas, saldos e transações fornecida pelo seu banco, apenas em modo de leitura.</li>
+  </ul>
+
+  <h2>Onde ficam guardados</h2>
+  <p>
+    A maior parte dos dados fica guardada localmente, no dispositivo ou
+    navegador onde a aplicação é usada, numa base de dados local. Não existe
+    um servidor central que armazene o histórico financeiro.
+  </p>
+
+  <h2>Com quem os dados são partilhados</h2>
+  <ul>
+    <li><strong>Supabase</strong> — usado apenas para autenticação (email/palavra-passe) e sessão. Não recebe as suas transações ou saldos.</li>
+    <li><strong>Anthropic (via função servidor própria)</strong> — quando o Weaver sugere uma categoria para uma transação, o texto dessa transação é enviado a um modelo de linguagem para gerar a sugestão. Nenhum outro dado é enviado.</li>
+    <li><strong>Fornecedor de Open Banking (Enable Banking)</strong> — apenas se optar por ligar uma conta bancária. O acesso é sempre só de leitura: a aplicação nunca pode mover dinheiro, criar pagamentos ou alterar dados na sua conta bancária. Pode revogar este acesso a qualquer momento, junto do seu banco ou do fornecedor de Open Banking.</li>
+  </ul>
+
+  <h2>O que NÃO fazemos</h2>
+  <ul>
+    <li>Não mostramos anúncios;</li>
+    <li>Não vendemos nem partilhamos dados com terceiros para fins de marketing;</li>
+    <li>Não usamos ferramentas de analytics ou rastreamento de comportamento de terceiros.</li>
+  </ul>
+
+  <h2>Os seus direitos</h2>
+  <p>
+    Pode terminar a sessão, apagar os dados guardados localmente a qualquer
+    momento, e revogar o acesso a qualquer conta bancária ligada diretamente
+    junto do seu banco ou do fornecedor de Open Banking.
+  </p>
+</body>
+</html>
