@@ -36,4 +36,8 @@ class AppIcons {
   static const IconData accountCash = BootstrapIcons.cash_stack;
   static const IconData accountCreditCard = BootstrapIcons.credit_card_fill;
   static const IconData accountInvestment = BootstrapIcons.graph_up_arrow;
+
+  // --- Dreams ---
+  static const IconData dreams = BootstrapIcons.rocket_takeoff_fill;
+  static const IconData dreamWithdraw = BootstrapIcons.dash_circle;
 }

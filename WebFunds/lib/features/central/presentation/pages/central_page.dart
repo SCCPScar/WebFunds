@@ -14,10 +14,9 @@ import '../widgets/goals_section.dart';
 import '../widgets/recent_activity_section.dart';
 import '../widgets/summary_section.dart';
 
-/// Composed entirely of independent sections. `SummarySection`,
-/// `CurrentCycleSection`, `AccountsSection` and `RecentActivitySection`
-/// have real content — `GoalsSection` is still a placeholder a future
-/// milestone fills in without changing this structure at all.
+/// Composed entirely of independent sections: `SummarySection`,
+/// `CurrentCycleSection`, `AccountsSection`, `GoalsSection` and
+/// `RecentActivitySection` all have real content.
 class CentralPage extends ConsumerWidget {
   const CentralPage({super.key});
 

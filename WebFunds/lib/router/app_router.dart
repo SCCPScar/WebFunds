@@ -11,6 +11,7 @@ import '../features/auth/presentation/pages/face_id_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/splash_page.dart';
 import '../features/central/presentation/pages/central_page.dart';
+import '../features/dreams/presentation/pages/dreams_page.dart';
 import '../features/finances/presentation/pages/finances_page.dart';
 import '../features/mysteries/presentation/pages/mysteries_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
@@ -87,6 +88,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.accountsName,
         pageBuilder: (context, state) =>
             PageTransitions.fadeThroughSlide(key: state.pageKey, child: const AccountsPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.dreams,
+        name: AppRoutes.dreamsName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fadeThroughSlide(key: state.pageKey, child: const DreamsPage()),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
