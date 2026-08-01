@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebFunds — a ligar a conta bancária...</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <p>A concluir a ligação à tua conta bancária...</p>
+  <script>
+    // OAuth-style redirect_uri values can't contain a URL fragment, but
+    // this app is a Flutter SPA using hash-based routing (GoRouter with
+    // no usePathUrlStrategy()). This static page is the registered
+    // redirect target instead: a real file GitHub Pages can serve
+    // directly (no SPA rewrite rules needed), which just hands off
+    // whatever query parameters the bank/Enable Banking appended to the
+    // app's actual hash route.
+    var target = '/WebFunds/#/banking/callback' + window.location.search;
+    window.location.replace(target);
+  </script>
+</body>
+</html>
