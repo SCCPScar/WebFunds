@@ -83,6 +83,18 @@ class DriftFinancialCycleRepository implements FinancialCycleRepository {
   }
 
   @override
+  Future<Result<List<FinancialCycle>>> getAllClosed() async {
+    try {
+      final rows = await _dao.getAllClosed();
+      return Success(rows.map(FinancialCycleMapper.toDomain).toList());
+    } on Exception catch (e) {
+      return ResultError(
+        mapExceptionToFailure(CacheException('Não foi possível carregar os ciclos anteriores.', cause: e)),
+      );
+    }
+  }
+
+  @override
   Future<Result<FinancialCycle>> close(String id, {required Money closingBalance}) async {
     try {
       final row = await _dao.findActive();

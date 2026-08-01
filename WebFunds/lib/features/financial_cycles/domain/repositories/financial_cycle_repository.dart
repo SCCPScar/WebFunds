@@ -24,4 +24,8 @@ abstract class FinancialCycleRepository {
   /// Moves the cycle to `closed`, stamping its end date and closing
   /// balance.
   Future<Result<FinancialCycle>> close(String id, {required Money closingBalance});
+
+  /// Every closed cycle, newest first — powers Reports' comparison with
+  /// the previous cycle.
+  Future<Result<List<FinancialCycle>>> getAllClosed();
 }

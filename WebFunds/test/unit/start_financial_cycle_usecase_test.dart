@@ -47,6 +47,9 @@ class _StubFinancialCycleRepository implements FinancialCycleRepository {
   Future<Result<FinancialCycle>> close(String id, {required Money closingBalance}) async {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Result<List<FinancialCycle>>> getAllClosed() async => throw UnimplementedError();
 }
 
 FinancialCycle _activeCycle() {

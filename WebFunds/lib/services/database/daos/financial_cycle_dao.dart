@@ -21,6 +21,14 @@ class FinancialCycleDao extends DatabaseAccessor<AppDatabase> with _$FinancialCy
     return (select(financialCycles)..where((c) => c.status.equals('active'))).getSingleOrNull();
   }
 
+  /// Newest first — powers Reports' "Comparison with Previous Cycle".
+  Future<List<FinancialCycleRow>> getAllClosed() {
+    return (select(financialCycles)
+          ..where((c) => c.status.equals('closed'))
+          ..orderBy([(c) => OrderingTerm.desc(c.endDate)]))
+        .get();
+  }
+
   Future<void> insertRow(FinancialCycleRow row) => into(financialCycles).insert(row);
 
   Future<void> updateRow(FinancialCycleRow row) => update(financialCycles).replace(row);

@@ -12,10 +12,12 @@ import '../../../financial_cycles/domain/entities/financial_cycle.dart';
 import '../../../financial_cycles/presentation/controllers/financial_cycle_providers.dart';
 import '../../../financial_cycles/presentation/controllers/start_financial_cycle_controller.dart';
 import '../../../financial_cycles/presentation/widgets/start_financial_cycle_form.dart';
+import '../../../reports/presentation/pages/cycle_report_page.dart';
+import '../../../transactions/domain/entities/transaction_type.dart';
+import '../../../transactions/presentation/controllers/transaction_providers.dart';
 
 /// The "Current Financial Cycle" section from `docs/01-Experience/02-Central.md`
-/// — a minimal version (name, start date, days elapsed, opening balance).
-/// Income/expense/progress require Transactions, which don't exist yet.
+/// (name, start date, days elapsed, opening balance, income, expenses).
 class CurrentCycleSection extends ConsumerWidget {
   const CurrentCycleSection({super.key});
 
@@ -176,17 +178,25 @@ class _NoActiveCycle extends StatelessWidget {
   }
 }
 
-class _ActiveCycle extends StatelessWidget {
+class _ActiveCycle extends ConsumerWidget {
   const _ActiveCycle({required this.cycle, required this.onClose});
 
   final FinancialCycle cycle;
   final VoidCallback onClose;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final daysSinceStart = DateTime.now().difference(cycle.startDate).inDays;
     final displayName = cycle.name ?? 'Ciclo desde ${DateFormat('dd/MM/yyyy').format(cycle.startDate)}';
+    final transactionsAsync = ref.watch(transactionsByCycleStreamProvider(cycle.id));
+    final transactions = transactionsAsync.value?.dataOrNull ?? const [];
+    final income = transactions
+        .where((t) => t.type == TransactionType.income)
+        .fold(Money.zero(), (sum, t) => sum + t.amount);
+    final expenses = transactions
+        .where((t) => t.type == TransactionType.expense)
+        .fold(Money.zero(), (sum, t) => sum + t.amount);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,6 +214,21 @@ class _ActiveCycle extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.xs),
         Text('Saldo inicial: ${cycle.openingBalance.format()}', style: theme.textTheme.bodyMedium),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          'Receitas: ${income.format()}  ·  Despesas: ${expenses.format()}',
+          style: theme.textTheme.bodyMedium,
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton(
+            onPressed: () => Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(builder: (_) => CycleReportPage(cycle: cycle)),
+            ),
+            child: const Text('Ver relatório'),
+          ),
+        ),
       ],
     );
   }

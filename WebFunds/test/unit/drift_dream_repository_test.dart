@@ -15,7 +15,7 @@ class _SequentialIdGenerator implements IdGenerator {
 
 class _FixedClock implements Clock {
   _FixedClock(this._fixed);
-  DateTime _fixed;
+  final DateTime _fixed;
   @override
   DateTime now() => _fixed;
 }

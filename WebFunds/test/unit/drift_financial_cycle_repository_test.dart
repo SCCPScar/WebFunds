@@ -107,4 +107,43 @@ void main() {
     await Future<void>.delayed(Duration.zero);
     expect(queue.last.dataOrNull, isNull);
   });
+
+  test('getAllClosed returns only closed cycles, newest first', () async {
+    // Two repository instances sharing the same database, each with its
+    // own fixed clock, so the two closes get distinct end dates —
+    // `getAllClosed()`'s ordering depends on that.
+    final earlyRepository = DriftFinancialCycleRepository(
+      database.financialCycleDao,
+      _SequentialIdGenerator(),
+      _FixedClock(DateTime(2026, 1, 15)),
+    );
+    final lateRepository = DriftFinancialCycleRepository(
+      database.financialCycleDao,
+      _SequentialIdGenerator(),
+      _FixedClock(DateTime(2026, 2, 15)),
+    );
+
+    final first = await repository.start(
+      startDate: DateTime(2026, 1, 1),
+      openingBalance: Money.zero(),
+    );
+    await earlyRepository.close(first.dataOrNull!.id, closingBalance: Money.zero());
+
+    final second = await repository.start(
+      startDate: DateTime(2026, 2, 1),
+      openingBalance: Money.zero(),
+    );
+    await lateRepository.close(second.dataOrNull!.id, closingBalance: Money.zero());
+
+    // Left active — must not appear in getAllClosed().
+    await repository.start(startDate: DateTime(2026, 3, 1), openingBalance: Money.zero());
+
+    final result = await repository.getAllClosed();
+
+    expect(result.isSuccess, isTrue);
+    final closed = result.dataOrNull!;
+    expect(closed.length, 2);
+    expect(closed.first.id, second.dataOrNull!.id);
+    expect(closed.last.id, first.dataOrNull!.id);
+  });
 }
