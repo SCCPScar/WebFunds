@@ -98,7 +98,21 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   // has no cipher/password option. At-rest protection for this database
   // relies entirely on the OS's own disk/keystore encryption, not on
   // anything this app does.
+  //
+  // On Flutter Web, `driftDatabase` requires a `web:` option pointing to
+  // two files that must live in `web/` and ship with the build:
+  // `sqlite3.wasm` (the compiled sqlite3 engine) and `drift_worker.js`
+  // (compiled from drift's own `web/drift_worker.dart`, shares the
+  // database across tabs where the browser allows it). Without this,
+  // `driftDatabase` throws on every single call on web — every page that
+  // reads from the database fails.
   static QueryExecutor _openConnection() {
-    return driftDatabase(name: 'webfunds');
+    return driftDatabase(
+      name: 'webfunds',
+      web: DriftWebOptions(
+        sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+        driftWorker: Uri.parse('drift_worker.js'),
+      ),
+    );
   }
 }
