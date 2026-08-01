@@ -17,6 +17,11 @@ class _StubTransactionRepository implements TransactionRepository {
   Future<Result<List<Transaction>>> getAll() async => _result;
 
   @override
+  Future<Result<Transaction?>> getById(String id) {
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<Result<List<Transaction>>> watchByCycle(String financialCycleId) {
     throw UnimplementedError();
   }

@@ -17,6 +17,8 @@ import '../../../financial_cycles/domain/entities/financial_cycle.dart';
 import '../../../financial_cycles/presentation/controllers/financial_cycle_providers.dart';
 import '../../../financial_cycles/presentation/controllers/start_financial_cycle_controller.dart';
 import '../../../financial_cycles/presentation/widgets/start_financial_cycle_form.dart';
+import '../../../mysteries/application/usecases/create_manual_mystery_usecase.dart';
+import '../../../mysteries/presentation/controllers/mystery_providers.dart';
 import '../../../transactions/application/usecases/update_transaction_merchant_category_usecase.dart';
 import '../../../transactions/domain/entities/transaction.dart';
 import '../../../transactions/presentation/controllers/create_transaction_controller.dart';
@@ -175,6 +177,26 @@ class FinancesPage extends ConsumerWidget {
                   );
                 },
                 child: const Text('Guardar'),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextButton(
+                onPressed: () async {
+                  final result = await ref.read(createManualMysteryUseCaseProvider).call(
+                        CreateManualMysteryParams(transactionId: transaction.id),
+                      );
+                  if (!sheetContext.mounted) return;
+                  result.fold(
+                    onSuccess: (_) {
+                      Navigator.of(sheetContext).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Assinalado como mistério.')),
+                      );
+                    },
+                    onError: (failure) => ScaffoldMessenger.of(sheetContext)
+                        .showSnackBar(SnackBar(content: Text(failure.message))),
+                  );
+                },
+                child: const Text('Marcar como mistério'),
               ),
             ],
           ),

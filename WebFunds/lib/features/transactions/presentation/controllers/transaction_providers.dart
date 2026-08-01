@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/shared_providers.dart';
 import '../../../../services/database/daos/transaction_dao.dart';
 import '../../application/usecases/create_transaction_usecase.dart';
+import '../../application/usecases/get_transaction_by_id_usecase.dart';
 import '../../application/usecases/update_transaction_merchant_category_usecase.dart';
 import '../../application/usecases/watch_transactions_by_cycle_usecase.dart';
 import '../../domain/repositories/transaction_repository.dart';
@@ -32,6 +33,14 @@ final createTransactionUseCaseProvider = Provider<CreateTransactionUseCase>((ref
 final updateTransactionMerchantCategoryUseCaseProvider =
     Provider<UpdateTransactionMerchantCategoryUseCase>((ref) {
   return UpdateTransactionMerchantCategoryUseCase(ref.watch(transactionRepositoryProvider));
+});
+
+final getTransactionByIdUseCaseProvider = Provider<GetTransactionByIdUseCase>((ref) {
+  return GetTransactionByIdUseCase(ref.watch(transactionRepositoryProvider));
+});
+
+final transactionByIdProvider = FutureProvider.autoDispose.family((ref, String id) {
+  return ref.watch(getTransactionByIdUseCaseProvider).call(id);
 });
 
 /// What `FinancesPage` watches directly — parameterized by cycle id since

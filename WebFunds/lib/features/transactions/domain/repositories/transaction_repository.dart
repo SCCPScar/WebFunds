@@ -17,6 +17,10 @@ abstract class TransactionRepository {
   /// which must reflect Cycles that have since closed.
   Future<Result<List<Transaction>>> getAll();
 
+  /// A single Transaction by id, or `null` if it no longer exists —
+  /// what Mysteries uses to show the Transaction its Mystery is about.
+  Future<Result<Transaction?>> getById(String id);
+
   /// `id`, `createdAt` and `updatedAt` are not parameters — assigning
   /// them is this layer's responsibility, never the caller's.
   Future<Result<Transaction>> create({
