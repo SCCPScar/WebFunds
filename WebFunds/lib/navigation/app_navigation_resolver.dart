@@ -17,7 +17,12 @@ import 'app_navigation_context.dart';
 class AppNavigationResolver {
   const AppNavigationResolver();
 
-  static const _publicOnlyRoutes = {AppRoutes.splash, AppRoutes.login, AppRoutes.faceId};
+  static const _publicOnlyRoutes = {
+    AppRoutes.splash,
+    AppRoutes.login,
+    AppRoutes.faceId,
+    AppRoutes.onboarding,
+  };
 
   /// Returns the location the app should be at, or `null` if
   /// [currentLocation] is already correct.
@@ -40,7 +45,7 @@ class AppNavigationResolver {
       AuthGateUnknown() => AppRoutes.splash,
       AuthGateUnauthenticated() => AppRoutes.login,
       AuthGateAwaitingBiometric() => AppRoutes.faceId,
-      AuthGateAuthenticated() => null,
+      AuthGateAuthenticated() => context.onboardingComplete ? null : AppRoutes.onboarding,
     };
   }
 }

@@ -11,6 +11,9 @@ class AppRoutes {
   static const String faceId = '/face-id';
   static const String faceIdName = 'faceId';
 
+  static const String onboarding = '/onboarding';
+  static const String onboardingName = 'onboarding';
+
   static const String accounts = '/accounts';
   static const String accountsName = 'accounts';
 

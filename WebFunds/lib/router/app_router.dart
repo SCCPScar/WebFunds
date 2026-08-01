@@ -15,6 +15,8 @@ import '../features/dreams/presentation/pages/dreams_page.dart';
 import '../features/finances/presentation/pages/finances_page.dart';
 import '../features/mysteries/presentation/pages/mysteries_page.dart';
 import '../features/notifications/presentation/pages/notification_center_page.dart';
+import '../features/onboarding/presentation/controllers/onboarding_providers.dart';
+import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/subscriptions/presentation/pages/subscriptions_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
@@ -25,22 +27,28 @@ import '../shared/widgets/app_error_view.dart';
 import '../shell/app_shell.dart';
 import 'app_routes.dart';
 
-/// Bridges `authGateControllerProvider` changes into a `Listenable`
-/// GoRouter can use as `refreshListenable`, so `redirect` re-runs whenever
-/// the gate state changes.
-class _AuthGateRefreshNotifier extends ChangeNotifier {
-  _AuthGateRefreshNotifier(Ref ref) {
-    _subscription = ref.listen<AuthGateState>(
+/// Bridges `authGateControllerProvider` and `onboardingCompleteProvider`
+/// changes into a `Listenable` GoRouter can use as `refreshListenable`,
+/// so `redirect` re-runs whenever either signal changes.
+class _NavigationRefreshNotifier extends ChangeNotifier {
+  _NavigationRefreshNotifier(Ref ref) {
+    _authSubscription = ref.listen<AuthGateState>(
       authGateControllerProvider,
+      (previous, next) => notifyListeners(),
+    );
+    _onboardingSubscription = ref.listen<bool>(
+      onboardingCompleteProvider,
       (previous, next) => notifyListeners(),
     );
   }
 
-  late final ProviderSubscription<AuthGateState> _subscription;
+  late final ProviderSubscription<AuthGateState> _authSubscription;
+  late final ProviderSubscription<bool> _onboardingSubscription;
 
   @override
   void dispose() {
-    _subscription.close();
+    _authSubscription.close();
+    _onboardingSubscription.close();
     super.dispose();
   }
 }
@@ -49,7 +57,7 @@ class _AuthGateRefreshNotifier extends ChangeNotifier {
 /// decisions to `AppNavigationResolver` — it holds no auth/business logic
 /// of its own.
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final refreshNotifier = _AuthGateRefreshNotifier(ref);
+  final refreshNotifier = _NavigationRefreshNotifier(ref);
   ref.onDispose(refreshNotifier.dispose);
 
   return GoRouter(
@@ -59,6 +67,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final navigationContext = AppNavigationContext(
         authGateState: ref.read(authGateControllerProvider),
+        onboardingComplete: ref.read(onboardingCompleteProvider),
       );
       return ref
           .read(appNavigationResolverProvider)
@@ -85,6 +94,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.faceIdName,
         pageBuilder: (context, state) =>
             PageTransitions.fade(key: state.pageKey, child: const FaceIdPage()),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding,
+        name: AppRoutes.onboardingName,
+        pageBuilder: (context, state) =>
+            PageTransitions.fade(key: state.pageKey, child: const OnboardingPage()),
       ),
       GoRoute(
         path: AppRoutes.accounts,

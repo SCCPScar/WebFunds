@@ -10,30 +10,52 @@ void main() {
   const user = AuthUser(id: '1', email: 'scarllett@example.com');
 
   test('unknown state sends to Splash', () {
-    const context = AppNavigationContext(authGateState: AuthGateUnknown());
+    const context =
+        AppNavigationContext(authGateState: AuthGateUnknown(), onboardingComplete: true);
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.splash);
     expect(resolver.resolve(context, AppRoutes.splash), isNull);
   });
 
   test('unauthenticated sends to Login', () {
-    const context = AppNavigationContext(authGateState: AuthGateUnauthenticated());
+    const context =
+        AppNavigationContext(authGateState: AuthGateUnauthenticated(), onboardingComplete: true);
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.login);
   });
 
   test('awaiting biometric sends to Face ID', () {
-    const context = AppNavigationContext(authGateState: AuthGateAwaitingBiometric(user));
+    const context = AppNavigationContext(
+      authGateState: AuthGateAwaitingBiometric(user),
+      onboardingComplete: true,
+    );
     expect(resolver.resolve(context, AppRoutes.central), AppRoutes.faceId);
   });
 
   test('authenticated on a public-only route redirects to Central', () {
-    const context = AppNavigationContext(authGateState: AuthGateAuthenticated(user));
+    const context =
+        AppNavigationContext(authGateState: AuthGateAuthenticated(user), onboardingComplete: true);
     expect(resolver.resolve(context, AppRoutes.login), AppRoutes.central);
     expect(resolver.resolve(context, AppRoutes.splash), AppRoutes.central);
   });
 
   test('authenticated elsewhere does not force a redirect', () {
-    const context = AppNavigationContext(authGateState: AuthGateAuthenticated(user));
+    const context =
+        AppNavigationContext(authGateState: AuthGateAuthenticated(user), onboardingComplete: true);
     expect(resolver.resolve(context, AppRoutes.central), isNull);
     expect(resolver.resolve(context, AppRoutes.finances), isNull);
+  });
+
+  test('authenticated without onboarding complete sends to Onboarding', () {
+    const context = AppNavigationContext(
+      authGateState: AuthGateAuthenticated(user),
+      onboardingComplete: false,
+    );
+    expect(resolver.resolve(context, AppRoutes.central), AppRoutes.onboarding);
+    expect(resolver.resolve(context, AppRoutes.onboarding), isNull);
+  });
+
+  test('authenticated with onboarding complete leaves the Onboarding route', () {
+    const context =
+        AppNavigationContext(authGateState: AuthGateAuthenticated(user), onboardingComplete: true);
+    expect(resolver.resolve(context, AppRoutes.onboarding), AppRoutes.central);
   });
 }

@@ -10,6 +10,12 @@ import 'tasks/session_check_task.dart';
 
 /// Wires up which [StartupTask]s run at boot. To add a new one: add it to
 /// this list. Nothing else in `startup/` or `StartupCoordinator` changes.
+///
+/// Onboarding-complete is deliberately NOT a startup task here — it only
+/// matters once a session is confirmed (an unauthenticated person always
+/// goes to Login regardless), so `AuthGateController` checks it the same
+/// way it already checks the biometric preference: after `sessionUser` is
+/// known to be non-null, not unconditionally on every boot.
 final startupTasksProvider = Provider<List<StartupTask>>((ref) {
   return [
     SessionCheckTask(ref.watch(checkSessionUseCaseProvider), ref.watch(appLoggerProvider)),

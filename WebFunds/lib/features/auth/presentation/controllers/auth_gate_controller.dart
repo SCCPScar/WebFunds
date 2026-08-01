@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/usecase/use_case.dart';
 import '../../../../startup/startup_provider.dart';
 import '../../../../startup/startup_result.dart';
+import '../../../onboarding/presentation/controllers/onboarding_providers.dart';
 import '../../domain/entities/auth_user.dart';
 import 'auth_providers.dart';
 
@@ -61,6 +62,16 @@ class AuthGateController extends Notifier<AuthGateState> {
       onSuccess: (enabled) => enabled,
       onError: (_) => true,
     );
+
+    final onboardingResult =
+        await ref.read(getOnboardingCompleteUseCaseProvider).call(const NoParams());
+    // Fail-safe the other direction: a storage error should never trap an
+    // existing owner inside Onboarding again.
+    final onboardingComplete = onboardingResult.fold(
+      onSuccess: (complete) => complete,
+      onError: (_) => true,
+    );
+    ref.read(onboardingCompleteProvider.notifier).set(onboardingComplete);
 
     state = biometricEnabled ? AuthGateAwaitingBiometric(user) : AuthGateAuthenticated(user);
   }
