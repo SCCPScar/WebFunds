@@ -6,6 +6,7 @@ import 'daos/dream_dao.dart';
 import 'daos/financial_cycle_dao.dart';
 import 'daos/memory_dao.dart';
 import 'daos/mystery_dao.dart';
+import 'daos/notification_dao.dart';
 import 'daos/subscription_dao.dart';
 import 'daos/transaction_dao.dart';
 import 'local_database_service.dart';
@@ -15,6 +16,7 @@ import 'tables/dreams_table.dart';
 import 'tables/financial_cycles_table.dart';
 import 'tables/memories_table.dart';
 import 'tables/mysteries_table.dart';
+import 'tables/notifications_table.dart';
 import 'tables/subscriptions_table.dart';
 import 'tables/transactions_table.dart';
 
@@ -31,6 +33,7 @@ part 'app_database.g.dart';
     Subscriptions,
     Mysteries,
     Memories,
+    Notifications,
   ],
   daos: [
     AccountDao,
@@ -40,6 +43,7 @@ part 'app_database.g.dart';
     SubscriptionDao,
     MysteryDao,
     MemoryDao,
+    NotificationDao,
   ],
 )
 class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
@@ -49,33 +53,36 @@ class AppDatabase extends _$AppDatabase implements LocalDatabaseService {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-    onCreate: (Migrator m) => m.createAll(),
-    onUpgrade: (Migrator m, int from, int to) async {
-      if (from < 2) {
-        await m.createTable(financialCycles);
-      }
-      if (from < 3) {
-        await m.createTable(transactions);
-      }
-      if (from < 4) {
-        await m.createTable(dreams);
-        await m.createTable(dreamMovements);
-      }
-      if (from < 5) {
-        await m.createTable(subscriptions);
-      }
-      if (from < 6) {
-        await m.createTable(mysteries);
-      }
-      if (from < 7) {
-        await m.createTable(memories);
-      }
-    },
-  );
+        onCreate: (Migrator m) => m.createAll(),
+        onUpgrade: (Migrator m, int from, int to) async {
+          if (from < 2) {
+            await m.createTable(financialCycles);
+          }
+          if (from < 3) {
+            await m.createTable(transactions);
+          }
+          if (from < 4) {
+            await m.createTable(dreams);
+            await m.createTable(dreamMovements);
+          }
+          if (from < 5) {
+            await m.createTable(subscriptions);
+          }
+          if (from < 6) {
+            await m.createTable(mysteries);
+          }
+          if (from < 7) {
+            await m.createTable(memories);
+          }
+          if (from < 8) {
+            await m.createTable(notifications);
+          }
+        },
+      );
 
   @override
   Future<void> initialize() async {}

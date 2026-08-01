@@ -14,6 +14,7 @@ import '../features/central/presentation/pages/central_page.dart';
 import '../features/dreams/presentation/pages/dreams_page.dart';
 import '../features/finances/presentation/pages/finances_page.dart';
 import '../features/mysteries/presentation/pages/mysteries_page.dart';
+import '../features/notifications/presentation/pages/notification_center_page.dart';
 import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/subscriptions/presentation/pages/subscriptions_page.dart';
 import '../features/vault/presentation/pages/vault_page.dart';
@@ -109,45 +110,62 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) =>
             PageTransitions.fadeThroughSlide(key: state.pageKey, child: const ProfilePage()),
       ),
+      GoRoute(
+        path: AppRoutes.notifications,
+        name: AppRoutes.notificationsName,
+        pageBuilder: (context, state) => PageTransitions.fadeThroughSlide(
+          key: state.pageKey,
+          child: const NotificationCenterPage(),
+        ),
+      ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            AppShell(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) => AppShell(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: AppRoutes.central,
-              name: AppRoutes.centralName,
-              builder: (context, state) => const CentralPage(),
-            ),
-          ],),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: AppRoutes.finances,
-              name: AppRoutes.financesName,
-              builder: (context, state) => const FinancesPage(),
-            ),
-          ],),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: AppRoutes.vault,
-              name: AppRoutes.vaultName,
-              builder: (context, state) => const VaultPage(),
-            ),
-          ],),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: AppRoutes.mysteries,
-              name: AppRoutes.mysteriesName,
-              builder: (context, state) => const MysteriesPage(),
-            ),
-          ],),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: AppRoutes.weaver,
-              name: AppRoutes.weaverName,
-              builder: (context, state) => const WeaverPage(),
-            ),
-          ],),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.central,
+                name: AppRoutes.centralName,
+                builder: (context, state) => const CentralPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.finances,
+                name: AppRoutes.financesName,
+                builder: (context, state) => const FinancesPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.vault,
+                name: AppRoutes.vaultName,
+                builder: (context, state) => const VaultPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.mysteries,
+                name: AppRoutes.mysteriesName,
+                builder: (context, state) => const MysteriesPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.weaver,
+                name: AppRoutes.weaverName,
+                builder: (context, state) => const WeaverPage(),
+              ),
+            ],
+          ),
         ],
       ),
     ],

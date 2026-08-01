@@ -23,6 +23,9 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String profileName = 'profile';
 
+  static const String notifications = '/notifications';
+  static const String notificationsName = 'notifications';
+
   // The 5 documented sections, each an independent branch of the Shell's
   // StatefulShellRoute.
   static const String central = '/central';
