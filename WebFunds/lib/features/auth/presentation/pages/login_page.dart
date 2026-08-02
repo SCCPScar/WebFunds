@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/animation/animations.dart';
@@ -67,6 +68,11 @@ class LoginPage extends ConsumerWidget {
         );
       }
       if (next is LoginSuccess) {
+        // Tells the browser the credentials just submitted are final —
+        // this is what actually triggers Safari's/Chrome's "save
+        // password?" prompt. Without it, the browser never learns the
+        // autofill session succeeded and never offers to save anything.
+        TextInput.finishAutofillContext();
         ref.read(authGateControllerProvider.notifier).markAuthenticated(next.user);
       }
     });

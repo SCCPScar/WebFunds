@@ -39,43 +39,49 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppTextField(
-            label: 'Email',
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            validator: Validators.email,
-            autofillHints: const [AutofillHints.email],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            label: 'Palavra-passe',
-            controller: _passwordController,
-            obscureText: _obscurePassword,
-            validator: Validators.password,
-            autofillHints: const [AutofillHints.password],
-            suffixIcon: IconButton(
-              icon: Icon(_obscurePassword ? AppIcons.eyeHidden : AppIcons.eyeVisible),
-              tooltip: _obscurePassword ? 'Mostrar palavra-passe' : 'Ocultar palavra-passe',
-              onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+    // Browsers (Safari's iCloud Keychain, Chrome's Password Manager) only
+    // offer to save/fill credentials for fields inside an `AutofillGroup`
+    // — without it, the `autofillHints` below are close to inert, which is
+    // why no "save password?" prompt was ever showing up.
+    return AutofillGroup(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppTextField(
+              label: 'Email',
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              validator: Validators.email,
+              autofillHints: const [AutofillHints.email],
             ),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          ElevatedButton(
-            onPressed: widget.isLoading ? null : _submit,
-            child: widget.isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                  )
-                : const Text('Entrar'),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.lg),
+            AppTextField(
+              label: 'Palavra-passe',
+              controller: _passwordController,
+              obscureText: _obscurePassword,
+              validator: Validators.password,
+              autofillHints: const [AutofillHints.password],
+              suffixIcon: IconButton(
+                icon: Icon(_obscurePassword ? AppIcons.eyeHidden : AppIcons.eyeVisible),
+                tooltip: _obscurePassword ? 'Mostrar palavra-passe' : 'Ocultar palavra-passe',
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            ElevatedButton(
+              onPressed: widget.isLoading ? null : _submit,
+              child: widget.isLoading
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : const Text('Entrar'),
+            ),
+          ],
+        ),
       ),
     );
   }
